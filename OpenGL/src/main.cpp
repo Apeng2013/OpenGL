@@ -130,6 +130,8 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(1);
+
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	//¶¥µã»º³åÇø
@@ -161,11 +163,29 @@ int main()
 	unsigned int program = CreateShader(shaderSource.vertexShaderSource.c_str(), shaderSource.fragmentShaderSource.c_str());
 
 	GLCALL(glUseProgram(program));
+	int location = glGetUniformLocation(program, "u_Color");
+	ASSERT(location != -1);
+	GLCALL(glUniform4f(location, 0.5f, 0.2f, 0.3f, 1.0f));
+
+	float r = 0.0f;
+	float interval = 0.05f;
 
 	while (!glfwWindowShouldClose(window))
 	{
 		GLCALL(glClear(GL_COLOR_BUFFER_BIT));
 		GLCALL(glClearColor(0.1f, 0.1f, 0.2f, 1.0f));
+
+		GLCALL(glUniform4f(location, r, 0.2f, 0.3f, 1.0f));
+		if (r > 1.0f)
+		{
+			interval = -0.05f;
+		}
+		else if (r < 0.0f)
+		{
+			interval = 0.05f;
+		}
+		r += interval;
+
 		GLCALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
 		glfwSwapBuffers(window);
 		glfwPollEvents();
