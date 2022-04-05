@@ -117,10 +117,16 @@ unsigned int CreateShader(const char* vertexSource, const char* fragmentSource)
 int main()
 {
 	GLFWwindow* window;
+
 	if (!glfwInit())
 	{
 		return -1;
 	}
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	window = glfwCreateWindow(780, 480, "OpenGL Window", NULL, NULL);
 	if (!window)
 	{
@@ -133,6 +139,11 @@ int main()
 	glfwSwapInterval(1);
 
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+	//顶点数组
+	unsigned int vertexArray;
+	GLCALL(glGenVertexArrays(1, &vertexArray));
+	GLCALL(glBindVertexArray(vertexArray));
 
 	//顶点缓冲区
 	float vertices[] = {
