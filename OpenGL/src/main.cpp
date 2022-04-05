@@ -4,30 +4,9 @@
 #include <string>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
-
-
-#define ASSERT(x) if(!(x)) __debugbreak();
-#define GLCALL(x) GLClearError();\
-	x;\
-	ASSERT(GLLogCall(#x, __FILE__, __LINE__));
-
-static void GLClearError()
-{
-	while (glGetError() != GL_NO_ERROR);
-}
-
-static bool GLLogCall(const char* function, const char* file, int line)
-{
-	while (unsigned int error = glGetError())
-	{
-		std::cout << "[OpenGL Error] " << error << " Function: " << function 
-			<< " File: " << file << " Line: " << line << std::endl;
-		return false;
-	}
-	return true;
-}
-
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 struct ShaderSource
 {
@@ -151,10 +130,7 @@ int main()
 		-0.5f, -0.5f, 0.0f,
 		 0.0f,  0.5f, 0.0f
 	};
-	unsigned int vertextBuffer;
-	GLCALL(glGenBuffers(1, &vertextBuffer));//1:生成的buffer数量
-	GLCALL(glBindBuffer(GL_ARRAY_BUFFER, vertextBuffer));
-	GLCALL(glBufferData(GL_ARRAY_BUFFER, 3 * 3 * sizeof(float), vertices, GL_STATIC_DRAW));
+	VertexBuffer vb(vertices, 3 * 3 * sizeof(float));
 	//顶点布局
 	GLCALL(glEnableVertexAttribArray(0));
 	GLCALL(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));
@@ -163,10 +139,7 @@ int main()
 	unsigned int indices[] = {
 		0, 1, 2
 	};
-	unsigned int indexBuffer;
-	GLCALL(glGenBuffers(1, &indexBuffer));
-	GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer));
-	GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
+	IndexBuffer ib(indices, 3);
 
 	// 解析shader文件
 	ShaderSource shaderSource = PaserShaderFile("triangle_shader.shader");
@@ -180,6 +153,10 @@ int main()
 
 	float r = 0.0f;
 	float interval = 0.05f;
+
+	GLCALL(glBindVertexArray(0));
+	vb.Unbind();
+	ib.Unbind();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -196,6 +173,9 @@ int main()
 			interval = 0.05f;
 		}
 		r += interval;
+
+		GLCALL(glBindVertexArray(vertexArray));
+		ib.Bind();
 
 		GLCALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
 		glfwSwapBuffers(window);
