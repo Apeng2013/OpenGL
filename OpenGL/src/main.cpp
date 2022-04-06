@@ -5,6 +5,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include "Renderer.h"
+#include "VertexArray.h"
+#include "VertexBufferLayout.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
@@ -120,9 +122,7 @@ int main()
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	//顶点数组
-	unsigned int vertexArray;
-	GLCALL(glGenVertexArrays(1, &vertexArray));
-	GLCALL(glBindVertexArray(vertexArray));
+	VertexArray va;
 
 	//顶点缓冲区
 	float vertices[] = {
@@ -132,8 +132,13 @@ int main()
 	};
 	VertexBuffer vb(vertices, 3 * 3 * sizeof(float));
 	//顶点布局
-	GLCALL(glEnableVertexAttribArray(0));
-	GLCALL(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));
+	VertexBufferLayout vbl(
+		{
+			{GL_FLOAT, 3, 1, 0}
+		}
+	);
+
+	va.AddBuffer(vb, vbl);
 
 	//索引缓冲区
 	unsigned int indices[] = {
@@ -154,8 +159,7 @@ int main()
 	float r = 0.0f;
 	float interval = 0.05f;
 
-	GLCALL(glBindVertexArray(0));
-	vb.Unbind();
+	va.Unbind();
 	ib.Unbind();
 
 	while (!glfwWindowShouldClose(window))
@@ -174,7 +178,7 @@ int main()
 		}
 		r += interval;
 
-		GLCALL(glBindVertexArray(vertexArray));
+		va.Bind();
 		ib.Bind();
 
 		GLCALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
