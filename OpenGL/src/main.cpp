@@ -61,19 +61,18 @@ int main()
 
 	// shader
 	Shader shader("../res/Shaders/triangle_shader.shader");
-	shader.Bind();
 
 	float r = 0.0f;
 	float interval = 0.05f;
 
-	va.Unbind();
-	ib.Unbind();
+	Renderer renderer;
+
 
 	while (!glfwWindowShouldClose(window))
 	{
-		GLCALL(glClear(GL_COLOR_BUFFER_BIT));
-		GLCALL(glClearColor(0.1f, 0.1f, 0.2f, 1.0f));
+		renderer.Clear();
 
+		shader.Bind();
 		shader.SetUniform4f("u_Color", r, 0.2f, 0.3f, 1.0f);
 		if (r > 1.0f)
 		{
@@ -85,10 +84,7 @@ int main()
 		}
 		r += interval;
 
-		va.Bind();
-		ib.Bind();
-
-		GLCALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
+		renderer.Draw(va, ib, shader);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
