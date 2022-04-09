@@ -1,7 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include "Renderer.h"
@@ -9,91 +5,8 @@
 #include "VertexBufferLayout.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "Shader.h"
 
-struct ShaderSource
-{
-	std::string vertexShaderSource;
-	std::string fragmentShaderSource;
-};
-
-//解析shader文件
-static ShaderSource PaserShaderFile(const std::string& filepath)
-{
-	enum class ShaderType
-	{
-		None = -1, vertex = 0, fragment = 1
-	};
-
-	std::ifstream fs(filepath);
-	std::string line;
-	std::stringstream shaders[2];
-	ShaderType shaderType;
-	while (std::getline(fs, line))
-	{
-		if (line.find("shader") != std::string::npos)
-		{
-			if (line.find("vertex") != std::string::npos)
-			{
-				shaderType = ShaderType::vertex;
-			}
-			else if (line.find("fragment") != std::string::npos)
-			{
-				shaderType = ShaderType::fragment;
-			}
-		}
-		else
-		{
-			shaders[(int)shaderType] << line << '\n';
-		}
-	}
-
-	return { shaders[(int)ShaderType::vertex].str(), shaders[(int)ShaderType::fragment].str() };
-}
-
-//编译shader
-static unsigned int CompileShader(const char* shaderSource, unsigned int shaderType)
-{
-	GLCALL(unsigned int shader = glCreateShader(shaderType));
-	GLCALL(glShaderSource(shader, 1, &shaderSource, NULL));
-	GLCALL(glCompileShader(shader));
-	int success;
-	GLCALL(glGetShaderiv(shader, GL_COMPILE_STATUS, &success));
-	if (!success)
-	{
-		char message[255];
-		GLCALL(glGetShaderInfoLog(shader, 255, NULL, message));
-		std::cout << "Error: Failed To Compile Shader!" << message << std::endl;
-		return 0;
-	}
-	return shader;
-}
-
-//创建shader
-unsigned int CreateShader(const char* vertexSource, const char* fragmentSource)
-{
-	unsigned int vertexShader = CompileShader(vertexSource, GL_VERTEX_SHADER);
-	unsigned int fragmentShader = CompileShader(fragmentSource, GL_FRAGMENT_SHADER);
-
-	// 创建program
-	GLCALL(unsigned int program = glCreateProgram());
-	GLCALL(glAttachShader(program, vertexShader));
-	GLCALL(glAttachShader(program, fragmentShader));
-	GLCALL(glLinkProgram(program));
-
-	int success;
-	GLCALL(glGetProgramiv(program, GL_LINK_STATUS, &success));
-	if (!success)
-	{
-		char message[255];
-		GLCALL(glGetProgramInfoLog(program, 255, NULL, message));
-		std::cout << "Error: Failed To Compile Shader!" << message << std::endl;
-		return 0;
-	}
-	GLCALL(glDeleteShader(vertexShader));
-	GLCALL(glDeleteShader(fragmentShader));
-
-	return program;
-}
 
 int main()
 {
@@ -146,15 +59,9 @@ int main()
 	};
 	IndexBuffer ib(indices, 3);
 
-	// 解析shader文件
-	ShaderSource shaderSource = PaserShaderFile("triangle_shader.shader");
-	// 编译shder
-	unsigned int program = CreateShader(shaderSource.vertexShaderSource.c_str(), shaderSource.fragmentShaderSource.c_str());
-
-	GLCALL(glUseProgram(program));
-	int location = glGetUniformLocation(program, "u_Color");
-	ASSERT(location != -1);
-	GLCALL(glUniform4f(location, 0.5f, 0.2f, 0.3f, 1.0f));
+	// shader
+	Shader shader("../res/Shaders/triangle_shader.shader");
+	shader.Bind();
 
 	float r = 0.0f;
 	float interval = 0.05f;
@@ -167,7 +74,7 @@ int main()
 		GLCALL(glClear(GL_COLOR_BUFFER_BIT));
 		GLCALL(glClearColor(0.1f, 0.1f, 0.2f, 1.0f));
 
-		GLCALL(glUniform4f(location, r, 0.2f, 0.3f, 1.0f));
+		shader.SetUniform4f("u_Color", r, 0.2f, 0.3f, 1.0f);
 		if (r > 1.0f)
 		{
 			interval = -0.05f;

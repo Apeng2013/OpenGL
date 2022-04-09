@@ -1,6 +1,6 @@
+#include <iostream>
 #include "VertexArray.h"
 #include "Renderer.h"
-#include <iostream>
 
 VertexArray::VertexArray()
 {
