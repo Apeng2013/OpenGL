@@ -21,6 +21,7 @@ public:
 	void Unbind() const;
 
 	void SetUniform4f(const std::string& name, float v1, float v2, float v3, float v4);
+	void SetUniform1i(const std::string& name, int value);
 	int GetUniformLocation(const std::string& name);
 
 private:
