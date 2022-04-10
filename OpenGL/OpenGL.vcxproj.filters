@@ -69,4 +69,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\dependencies\glm\.appveyor.yml" />
+    <None Include="src\dependencies\glm\.gitignore" />
+    <None Include="src\dependencies\glm\.travis.yml" />
+    <None Include="src\dependencies\glm\manual.md" />
+    <None Include="src\dependencies\glm\readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\dependencies\glm\CMakeLists.txt" />
+    <Text Include="src\dependencies\glm\copying.txt" />
+  </ItemGroup>
 </Project>
