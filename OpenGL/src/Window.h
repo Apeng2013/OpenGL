@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GLFW/glfw3.h"
-#include <string>
 
 
 class Window
@@ -15,8 +14,12 @@ public:
 	bool ShouldCloseWindow() const;
 	void Close() const;
 
-	static Window& GetWindow() { return *s_WindowInstance; }
-	static GLFWwindow* GetGLWindow() { return s_WindowInstance->GetGLWindowImpl(); }
+	static Window& GetWindow() 
+	{
+		static Window window;
+		return window;
+	}
+	static GLFWwindow* GetGLWindow() { return GetWindow().GetGLWindowImpl(); }
 	GLFWwindow* GetGLWindowImpl() const { return m_Window; }
 
 public:
@@ -24,7 +27,6 @@ public:
 	Window& operator=(Window& window) = delete;
 
 private:
-	static Window* s_WindowInstance;
 	GLFWwindow* m_Window;
 	unsigned int m_Width, m_Height;
 };

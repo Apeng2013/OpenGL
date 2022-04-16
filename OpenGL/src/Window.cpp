@@ -1,8 +1,6 @@
 #include "Window.h"
 #include "Renderer.h"
-
-
-Window* Window::s_WindowInstance = new Window();
+#include <iostream>
 
 Window::Window()
 	:m_Window(nullptr), m_Width(0), m_Height(0)
