@@ -167,7 +167,7 @@
       <Project>{bbfb81b9-fb03-44aa-8c36-d1b6f05ba36e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Dependencies\ImGui\ImGui.vcxproj">
-      <Project>{c9b0d0cf-d3e6-438a-85a5-505dcf059e02}</Project>
+      <Project>{eda861be-7f32-4cb8-b3de-6d3f58e40f17}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
