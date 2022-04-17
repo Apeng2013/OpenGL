@@ -52,35 +52,41 @@ int main()
 	Texture texture("res/Textures/letter_p.png");
 	texture.Bind();
 
-	float position[2] = { 0.0f, 0.0f };
 
 	// 创建正交投影矩阵
 	glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 720.0f, -1.0f, 1.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(position[0], position[1], 0.0f));
-	glm::mat4 mvp = proj * view * model;
+	glm::mat4 model;
+	glm::mat4 mvp;
 
 	shader.SetUniform1i("u_Texture", 0);
-	shader.SetUniformMat4f("u_MVP", mvp);
 
 	Renderer renderer;
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();
 
+	float position1[2] = { 0.0f, 0.0f };
+	float position2[2] = { 0.0f, 0.0f };
+
 	while (!window.ShouldCloseWindow())
 	{
 		renderer.Clear();
 
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(position[0], position[1], 0.0f));
-		glm::mat4 mvp = proj * view * model;
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(position1[0], position1[1], 0.0f));
+		mvp = proj * view * model;
 		shader.SetUniformMat4f("u_MVP", mvp);
+		renderer.Draw(va, ib, shader);
 
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(position2[0], position2[1], 0.0f));
+		mvp = proj * view * model;
+		shader.SetUniformMat4f("u_MVP", mvp);
 		renderer.Draw(va, ib, shader);
 
 		imgui_layer.Begin();
 		ImGui::Begin("Modify Position");   
-		ImGui::SliderFloat2("position(x,y)", position, 0.0f, 100.0f);
+		ImGui::SliderFloat2("position1(x,y)", position1, 0.0f, 100.0f);
+		ImGui::SliderFloat2("position2(x,y)", position2, 0.0f, 100.0f);
 		ImGui::End();
 		imgui_layer.End();
 
