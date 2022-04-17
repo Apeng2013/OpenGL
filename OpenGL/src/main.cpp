@@ -10,6 +10,7 @@
 #include "glm/glm/glm.hpp"
 #include "glm/glm/gtc/matrix_transform.hpp"
 #include "imgui.h"
+#include "Test/TestColor.h"
 
 
 int main()
@@ -69,9 +70,14 @@ int main()
 	float position1[2] = { 0.0f, 0.0f };
 	float position2[2] = { 0.0f, 0.0f };
 
+	Test::TestColor testColor;
+
 	while (!window.ShouldCloseWindow())
 	{
 		renderer.Clear();
+
+		testColor.OnUpdate(0.0f);
+		testColor.OnRender();
 
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(position1[0], position1[1], 0.0f));
 		mvp = proj * view * model;
@@ -87,6 +93,7 @@ int main()
 		ImGui::Begin("Modify Position");   
 		ImGui::SliderFloat2("position1(x,y)", position1, 0.0f, 100.0f);
 		ImGui::SliderFloat2("position2(x,y)", position2, 0.0f, 100.0f);
+		testColor.OnImGuiRender();
 		ImGui::End();
 		imgui_layer.End();
 
