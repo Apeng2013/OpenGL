@@ -23,6 +23,9 @@ public:
 	static GLFWwindow* GetGLWindow() { return GetWindow().GetGLWindowImpl(); }
 	GLFWwindow* GetGLWindowImpl() const { return m_Window; }
 
+	inline unsigned int GetWidth() const { return m_Width; }
+	inline unsigned int GetHeight() const { return m_Height; }
+
 public:
 	Window(Window& window) = delete;
 	Window& operator=(Window& window) = delete;

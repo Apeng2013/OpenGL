@@ -14,8 +14,8 @@ int main()
 
 	Renderer& renderer = Renderer::GetRenderer();
 
-	ImGuiLayer imgui_layer;
-	imgui_layer.OnAttach();
+	ImGuiLayer imguiLayer;
+	imguiLayer.OnAttach();
 
 	Test::TestManager testManager;
 	testManager.PushTest<Test::TestColor>("Test Color");
@@ -28,16 +28,16 @@ int main()
 		testManager.OnUpdate(0.0f);
 		testManager.OnRender();
 
-		imgui_layer.Begin();
+		imguiLayer.Begin();
 		ImGui::Begin("ImGui");
 		testManager.OnImGuiRender();
 		ImGui::End();
-		imgui_layer.End();
+		imguiLayer.End();
 
 		window.Update();
 	}
 
-	imgui_layer.OnDetach();
+	imguiLayer.OnDetach();
 	window.Close();
 
 	return 0;

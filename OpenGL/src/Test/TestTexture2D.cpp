@@ -43,10 +43,10 @@ namespace Test {
 
 		m_Texture = std::make_unique<Texture>("res/Textures/letter_p.png");
 		m_Texture->Bind();
-
 		// 创建正交投影矩阵
-		//unsigned int width = Window::GetWindow();
-		m_Proj = glm::ortho(0.0f, 960.0f, 0.0f, 720.0f, -1.0f, 1.0f);
+		float width = static_cast<float>(Window::GetWindow().GetWidth());
+		float height = static_cast<float>(Window::GetWindow().GetHeight());
+		m_Proj = glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
 
 		m_Shader->SetUniform1i("u_Texture", 0);
 	}
