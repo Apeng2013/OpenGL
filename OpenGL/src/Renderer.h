@@ -18,10 +18,17 @@ bool GLLogCall(const char* function, const char* file, int line);
 class Renderer
 {
 public:
-	Renderer();
-	~Renderer();
-
-
 	void Clear();
 	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
+	
+	static Renderer& GetRenderer()
+	{
+		static Renderer renderer;
+		return renderer;
+	}
+private:
+	Renderer();
+	~Renderer();
+	Renderer(Renderer& other);
+	Renderer& operator=(Renderer& other);
 };
