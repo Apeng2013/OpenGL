@@ -60,6 +60,9 @@
     <ClCompile Include="src\Test\TestTexture2D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -104,6 +107,9 @@
     <ClInclude Include="src\Test\TestTexture2D.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Camera\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\dependencies\glm\.appveyor.yml" />
@@ -111,6 +117,7 @@
     <None Include="src\dependencies\glm\.travis.yml" />
     <None Include="src\dependencies\glm\manual.md" />
     <None Include="src\dependencies\glm\readme.md" />
+    <None Include="res\Shaders\cube.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />
