@@ -3,7 +3,7 @@
 #include "GLFW/glfw3.h"
 
 Camera::Camera(int width, int height)
-	:m_Lastx(width / 2), m_Lasty(height / 2), m_MouseSensitivity(0.05f), m_Pitch(0.0f), m_Yaw(90.0f), m_FirstMouseEnter(true),
+	:m_Lastx(width / 2), m_Lasty(height / 2), m_MouseSensitivity(0.1f), m_Pitch(0.0f), m_Yaw(90.0f), m_FirstMouseEnter(true),
 	m_Position{ 0.0f, 0.0f, 0.0f }, m_ForwardDir{ 0.0f, 0.0f, 1.0f }, m_UpDir{ 0.0f, 1.0f, 0.0f }, m_ViewMat(glm::mat4(1.0f))
 {
 	m_ViewMat = glm::lookAt(m_Position, m_Position - m_ForwardDir, m_UpDir);

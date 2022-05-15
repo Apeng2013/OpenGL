@@ -22,7 +22,9 @@ public:
 	void Unbind() const;
 
 	void SetUniform1i(const std::string& name, int value);
+	void SetUniform3f(const std::string& name, float v1, float v2, float v3);
 	void SetUniform4f(const std::string& name, float v1, float v2, float v3, float v4);
+	void SetUniformMat3f(const std::string& name, glm::mat3& matrix);
 	void SetUniformMat4f(const std::string& name, glm::mat4& matrix);
 	int GetUniformLocation(const std::string& name);
 

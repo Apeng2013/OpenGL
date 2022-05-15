@@ -9,6 +9,7 @@ public:
 	~Camera();
 
 	const glm::mat4& GetViewMatrix() const { return m_ViewMat; };
+	const glm::vec3& GetPosition() const { return m_Position; };
 
 	void SetPosition(float x, float y, float z);
 
