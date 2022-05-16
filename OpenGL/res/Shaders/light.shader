@@ -3,11 +3,11 @@
 #version 330 core
 layout(location = 0) in vec4 aPos;
 
-uniform mat4 u_MVP;
+uniform mat4 uMVP;
 
 void main()
 {
-	gl_Position = u_MVP * aPos;
+	gl_Position = uMVP * aPos;
 }
 
 
@@ -17,9 +17,9 @@ void main()
 
 out vec4 color;
 
-uniform vec3 u_LightColor;
+uniform vec3 uLightColor;
 
 void main()
 {
-	color = vec4(u_LightColor, 1.0);
+	color = vec4(uLightColor, 1.0);
 }
