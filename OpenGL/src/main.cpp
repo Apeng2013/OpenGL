@@ -113,8 +113,10 @@ int main()
     //-----------------------cube---------------------------
 
     //-----------------------light--------------------------
-    glm::vec3 light_pos = { 0.0f, 30.0f, -80.f };
-    glm::vec4 light_color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    glm::vec3 light_pos = { 10.0f, 10.0f, -20.f };
+    glm::vec3 light_ambient = { 0.1f, 0.1f, 0.1f };
+    glm::vec3 light_diffuse = { 0.5f, 0.5f, 0.5f };
+    glm::vec3 light_specular = { 1.0f, 1.0f, 1.0f };
     VertexArray light_va;
     VertexBuffer light_vb(vertices, 36 * 5 * sizeof(float));
     VertexBufferLayout light_vbl(
@@ -145,15 +147,23 @@ int main()
         // cube
         texture.Bind();
         shader.Bind();
-        model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, -10.0f)) * glm::rotate(glm::mat4(1.0f), (float)(glfwGetTime() * glm::radians(45.0)), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, -10.0f)) * glm::rotate(glm::mat4(1.0f), (float)(glfwGetTime()* glm::radians(45.0)), glm::vec3(1.0f, 0.0f, 0.0f));
         mvp = projection * camera.GetViewMatrix() * model;
         glm::vec3 camera_pos = camera.GetPosition();
         shader.SetUniformMat4f("u_MVP", mvp);
         shader.SetUniformMat4f("u_Model", model);
-        shader.SetUniform3f("u_LightColor", light_color.x, light_color.y, light_color.z);
-        shader.SetUniform3f("u_LightPosition", light_pos.x, light_pos.y, light_pos.z);
         shader.SetUniform3f("u_CameraPos", camera_pos.x, camera_pos.y, camera_pos.z);
         shader.SetUniform1i("u_Texture", 0);
+
+        shader.SetUniform3f("material.ambient", 0.3f, 0.6f, 0.2f);
+        shader.SetUniform3f("material.diffuse", 0.3f, 0.6f, 0.2f);
+        shader.SetUniform3f("material.specular", 0.5f, 0.5f, 0.5f);
+        shader.SetUniform1i("material.shinness", 32);
+
+        shader.SetUniform3f("light.position", light_pos.x, light_pos.y, light_pos.z);
+        shader.SetUniform3f("light.ambient", light_ambient.x, light_ambient.y, light_ambient.z);
+        shader.SetUniform3f("light.diffuse", light_diffuse.x, light_diffuse.y, light_diffuse.z);
+        shader.SetUniform3f("light.specular", light_specular.x, light_specular.y, light_specular.z);
 
         renderer.Draw(va, ib, shader);
         //light
@@ -161,7 +171,7 @@ int main()
         model = glm::translate(glm::mat4(1.0f), light_pos);
         mvp = projection * camera.GetViewMatrix() * model;
         light_shader.SetUniformMat4f("u_MVP", mvp);
-        light_shader.SetUniform3f("u_LightColor", light_color.x, light_color.y, light_color.z);
+        light_shader.SetUniform3f("u_LightColor", 1.0f, 1.0f, 1.0f);
         renderer.Draw(light_va, light_ib, light_shader);
 		window.Update();
 	}

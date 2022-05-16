@@ -31,26 +31,45 @@ in vec3 v_WorldPos;
 
 out vec4 color;
 
-uniform vec3 u_LightColor;
-uniform vec3 u_LightPosition;
 uniform vec3 u_CameraPos;
 uniform sampler2D u_Texture;
 
+struct Material
+{
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+
+	int shinness;
+};
+
+uniform Material material;
+
+struct Light
+{
+	vec3 position;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+};
+
+uniform Light light;
 
 void main()
 {
-	color = texture(u_Texture, v_TexCoord) * vec4(0.3, 0.6, 0.5, 1.0);
-	color.w = 1;
+	vec3 ambient = light.ambient * material.ambient;
 
-	float ambient = 0.1;
+	vec3 light_dir = normalize(light.position - v_WorldPos);
+	float diff = 0.5 * max(0, dot(light_dir, v_Normal));
+	vec3 diffuse = diff * light.diffuse * material.diffuse;
 
-	vec3 light_dir = normalize(u_LightPosition - v_WorldPos);
-	float diffuse = 0.5 * max(0, dot(light_dir, v_Normal));
+	vec3 specular = vec3(0.0, 0.0, 0.0);
+	if (dot(light_dir, v_Normal) > 0.0)
+	{
+		vec3 half_vector = normalize(light_dir + u_CameraPos - v_WorldPos);
+		float spec = pow(max(0, dot(half_vector, v_Normal)), material.shinness);
+		specular = spec * light.specular * material.specular;
+	}
 
-	vec3 half_vector = normalize(light_dir + u_CameraPos - v_WorldPos);
-	float specular = 0.5 * pow(max(0, dot(half_vector, v_Normal)), 32);
-	if (dot(light_dir, v_Normal) < 0.0)
-		specular = 0.0;
-
-	color = vec4((ambient + diffuse + specular) * u_LightColor, 1.0) * color;
+	color = vec4(ambient + diffuse + specular, 1.0);
 }
