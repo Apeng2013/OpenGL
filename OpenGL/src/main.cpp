@@ -115,11 +115,18 @@ int main()
 
     //-----------------------cube---------------------------
 
-    //-----------------------light--------------------------
-    glm::vec3 light_pos = { 10.0f, 10.0f, -20.f };
-    glm::vec3 light_ambient = { 0.2f, 0.2f, 0.2f };
-    glm::vec3 light_diffuse = { 0.5f, 0.5f, 0.5f };
-    glm::vec3 light_specular = { 1.0f, 1.0f, 1.0f };
+    //-----------------------direction light--------------------------
+    glm::vec3 dir_light_direction = { 1.0f, -1.0f, 0.0f };
+    glm::vec3 dir_light_ambient = { 0.2f, 0.2f, 0.2f };
+    glm::vec3 dir_light_diffuse = { 0.5f, 0.5f, 0.5f };
+    glm::vec3 dir_light_specular = { 1.0f, 1.0f, 1.0f };
+    //----------------------direction light---------------------------
+
+    //----------------------point light-----------------
+    glm::vec3 p_light_pos = { 1.0f, 1.0f, -5.0f };
+    glm::vec3 p_light_ambient = { 0.2f, 0.2f, 0.2f };
+    glm::vec3 p_light_diffuse = { 0.5f, 0.5f, 0.5f };
+    glm::vec3 p_light_specular = { 1.0f, 1.0f, 1.0f };
     VertexArray light_va;
     VertexBuffer light_vb(vertices, 36 * 8 * sizeof(float));
     VertexBufferLayout light_vbl(
@@ -131,8 +138,18 @@ int main()
     );
     light_va.AddBuffer(light_vb, light_vbl);
     IndexBuffer light_ib(indices, 36);
-    Shader light_shader("res/Shaders/light.shader");
-    //-----------------------light--------------------------
+    Shader light_shader("res/shaders/light.shader");
+    //-----------------------point light----------------
+
+    //----------------------spot light------------------
+    glm::vec3 s_light_pos = { 0.0f, 0.0f, 0.0f };
+    glm::vec3 s_light_dir = { 0.0f, 0.0f, -1.0f };
+    glm::vec3 s_light_ambient = { 0.2f, 0.2f, 0.2f };
+    glm::vec3 s_light_diffuse = { 0.5f, 0.5f, 0.5f };
+    glm::vec3 s_light_specular = { 1.0f, 1.0f, 1.0f };
+    float s_light_cutoff = 5.0f;
+    float s_light_outer_cutoff = 7.0f;
+    //----------------------spot light------------------
 
     glm::mat4 mvp;
 
@@ -151,7 +168,7 @@ int main()
         texture_diffuse.Bind();
         texture_specular.Bind(3);
         shader.Bind();
-        model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, -10.0f)) * glm::rotate(glm::mat4(1.0f), (float)(0.2 * glfwGetTime()* glm::radians(45.0)), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f)) * glm::rotate(glm::mat4(1.0f), (float)(0.2 * glfwGetTime()* glm::radians(45.0)), glm::vec3(1.0f, 0.0f, 0.0f));
         mvp = projection * camera.GetViewMatrix() * model;
         glm::vec3 camera_pos = camera.GetPosition();
         shader.SetUniformMat4f("uMVP", mvp);
@@ -162,15 +179,32 @@ int main()
         shader.SetUniform1i("uSpecularTexture", 3);
         shader.SetUniform1i("material.shinness", 32);
 
-        shader.SetUniform3f("light.position", light_pos.x, light_pos.y, light_pos.z);
-        shader.SetUniform3f("light.ambient", light_ambient.x, light_ambient.y, light_ambient.z);
-        shader.SetUniform3f("light.diffuse", light_diffuse.x, light_diffuse.y, light_diffuse.z);
-        shader.SetUniform3f("light.specular", light_specular.x, light_specular.y, light_specular.z);
+        shader.SetUniform3f("uDirectionLight.direction", dir_light_direction.x, dir_light_direction.y, dir_light_direction.z);
+        shader.SetUniform3f("uDirectionLight.ambient", dir_light_ambient.x, dir_light_ambient.y, dir_light_ambient.z);
+        shader.SetUniform3f("uDirectionLight.diffuse", dir_light_diffuse.x, dir_light_diffuse.y, dir_light_diffuse.z);
+        shader.SetUniform3f("uDirectionLight.specular", dir_light_specular.x, dir_light_specular.y, dir_light_specular.z);
+
+        shader.SetUniform3f("uPointLight.position", p_light_pos.x, p_light_pos.y, p_light_pos.z);
+        shader.SetUniform3f("uPointLight.ambient", p_light_ambient.x, p_light_ambient.y, p_light_ambient.z);
+        shader.SetUniform3f("uPointLight.diffuse", p_light_diffuse.x, p_light_diffuse.y, p_light_diffuse.z);
+        shader.SetUniform3f("uPointLight.specular", p_light_specular.x, p_light_specular.y, p_light_specular.z);
+        shader.SetUniform1f("uPointLight.constant", 1.0f);
+        shader.SetUniform1f("uPointLight.linear", 0.07f);
+        shader.SetUniform1f("uPointLight.quadratic", 0.017f);
+
+        shader.SetUniform3f("uSpotLight.position", s_light_pos.x, s_light_pos.y, s_light_pos.z);
+        shader.SetUniform3f("uSpotLight.direction", s_light_dir.x, s_light_dir.y, s_light_dir.z);
+        shader.SetUniform3f("uSpotLight.ambient", s_light_ambient.x, s_light_ambient.y, s_light_ambient.z);
+        shader.SetUniform3f("uSpotLight.diffuse", s_light_diffuse.x, s_light_diffuse.y, s_light_diffuse.z);
+        shader.SetUniform3f("uSpotLight.specular", s_light_specular.x, s_light_specular.y, s_light_specular.z);
+        shader.SetUniform1f("uSpotLight.cutoff", cos(glm::radians(s_light_cutoff)));
+        shader.SetUniform1f("uSpotLight.outercutoff", cos(glm::radians(s_light_outer_cutoff)));
+
 
         renderer.Draw(va, ib, shader);
         //light
         light_shader.Bind();
-        model = glm::translate(glm::mat4(1.0f), light_pos);
+        model = glm::translate(glm::mat4(1.0f), p_light_pos);
         mvp = projection * camera.GetViewMatrix() * model;
         light_shader.SetUniformMat4f("uMVP", mvp);
         light_shader.SetUniform3f("uLightColor", 1.0f, 1.0f, 1.0f);

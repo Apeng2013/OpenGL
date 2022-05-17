@@ -42,33 +42,87 @@ struct Material
 
 uniform Material material;
 
-struct Light
+struct DirectionLight
 {
-	vec3 position;
+	vec3 direction;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
 };
 
-uniform Light light;
+uniform DirectionLight uDirectionLight;
+
+struct PointLight
+{
+	vec3 position;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	
+	float constant;
+	float linear;
+	float quadratic;
+};
+
+
+uniform PointLight uPointLight;
+
+struct SpotLight
+{
+	vec3 position;
+	vec3 direction;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	float cutoff;
+	float outercutoff;
+};
+
+uniform SpotLight uSpotLight;
+
 
 void main()
 {
 	vec3 tex_color = vec3(texture(uDiffuseTexture, v_TexCoord));
 
-	vec3 ambient = light.ambient * tex_color;
+	vec3 ambient = uDirectionLight.ambient * tex_color;
 
-	vec3 light_dir = normalize(light.position - v_WorldPos);
+	vec3 light_dir = normalize(-uDirectionLight.direction);
 	float diff = max(0, dot(light_dir, v_Normal));
-	vec3 diffuse = diff * light.diffuse * tex_color;
+	vec3 diffuse = diff * uDirectionLight.diffuse * tex_color;
 
 	vec3 specular = vec3(0.0, 0.0, 0.0);
 	if (dot(light_dir, v_Normal) > 0.0)
 	{
 		vec3 half_vector = normalize(light_dir + uCameraPos - v_WorldPos);
 		float spec = pow(max(0, dot(half_vector, v_Normal)), material.shinness);
-		specular = spec * light.specular * texture(uSpecularTexture, v_TexCoord);
+		specular = spec * uDirectionLight.specular * texture(uSpecularTexture, v_TexCoord);
 	}
 
+	ambient = uPointLight.ambient * tex_color;
+	light_dir = normalize(uPointLight.position - v_WorldPos);
+	diff = max(0, dot(light_dir, v_Normal));
+	diffuse = diff * uPointLight.diffuse * tex_color;
+	specular = vec3(0, 0, 0);
+	if (dot(light_dir, v_Normal) > 0.0)
+	{
+		vec3 half_vector = normalize(light_dir + uCameraPos - v_WorldPos);
+		float spec = pow(max(0, dot(half_vector, v_Normal)), material.shinness);
+		specular = spec * uPointLight.specular * texture(uSpecularTexture, v_TexCoord);
+	}
+	float distance = length(uPointLight.position - v_WorldPos);
+	float attenuation = 1.0 / (uPointLight.constant + uPointLight.linear * distance + uPointLight.quadratic * distance * distance);
+
+	ambient = uSpotLight.ambient * tex_color;
+	light_dir = normalize(uSpotLight.position - v_WorldPos);
+	float theta =dot(light_dir, normalize(-uSpotLight.direction));
+	float epsilon = uSpotLight.cutoff - uSpotLight.outercutoff;
+	float intensity = clamp((theta - uSpotLight.outercutoff) / epsilon, 0.0, 1.0);
+	diff = max(0, dot(light_dir, v_Normal));
+	diffuse = intensity * diff * uSpotLight.diffuse * tex_color;
+	vec3 half_vector = normalize(light_dir + uCameraPos - v_WorldPos);
+	float spec = pow(max(0, dot(half_vector, v_Normal)), material.shinness);
+	specular = intensity * spec * uSpotLight.specular * texture(uSpecularTexture, v_TexCoord);
 	color = vec4(ambient + diffuse + specular, 1.0);
+
 }
