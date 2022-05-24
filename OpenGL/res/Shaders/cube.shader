@@ -80,6 +80,7 @@ vec3 CalculateDirectionLight(DirectionLight light, vec3 view_dir)
 	vec3 spec_color = vec3(texture(uSpecularTexture, v_TexCoord));
 
 	vec3 ambient = light.ambient * tex_color;
+
 	vec3 light_dir = normalize(-light.direction);
 	float diff = max(0, dot(v_Normal, light_dir));
 	vec3 diffuse = diff * light.diffuse * tex_color;
@@ -121,7 +122,7 @@ vec3 CalculateSpotLight(SpotLight light, vec3 view_dir)
 	vec3 light_dir = normalize(light.position - v_WorldPos);
 	vec3 ambient = light.ambient * tex_color;
 
-	float theta = dot(light.direction, -light_dir);
+	float theta = dot(normalize(light.direction), -light_dir);
 	float epsilon = light.cutoff - light.outercutoff;
 	float intensity = clamp((theta - light.outercutoff) / epsilon, 0.0, 1.0);
 
