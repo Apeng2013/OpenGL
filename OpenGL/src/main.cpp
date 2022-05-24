@@ -177,7 +177,7 @@ int main()
 
         shader.SetUniform1i("uDiffuseTexture", 0);
         shader.SetUniform1i("uSpecularTexture", 3);
-        shader.SetUniform1i("material.shinness", 32);
+        shader.SetUniform1i("uShinness", 32);
 
         shader.SetUniform3f("uDirectionLight.direction", dir_light_direction.x, dir_light_direction.y, dir_light_direction.z);
         shader.SetUniform3f("uDirectionLight.ambient", dir_light_ambient.x, dir_light_ambient.y, dir_light_ambient.z);
