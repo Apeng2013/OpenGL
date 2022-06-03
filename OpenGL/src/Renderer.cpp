@@ -28,8 +28,8 @@ Renderer::~Renderer()
 
 void Renderer::Clear()
 {
+	GLCALL(glClearColor(0.3, 0.6, 0.8, 1.0));
 	GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-	GLCALL(glClearColor(0.3, 0.3, 0.4, 1.0));
 }
 
 void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)

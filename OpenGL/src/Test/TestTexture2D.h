@@ -7,7 +7,7 @@
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "glm/glm/glm.hpp"
+#include "glm/glm.hpp"
 
 namespace Test {
 

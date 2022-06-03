@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "glm/glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include "GLFW/glfw3.h"
 
 Camera::Camera(int width, int height)

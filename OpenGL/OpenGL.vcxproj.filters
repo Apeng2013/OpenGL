@@ -36,9 +36,6 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\dependencies\stb_image\stb_image.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -63,6 +60,15 @@
     <ClCompile Include="src\Camera\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dependencies\stb_image\stb_image\stb_image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -81,9 +87,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\Shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\dependencies\stb_image\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.h">
@@ -110,6 +113,15 @@
     <ClInclude Include="src\Camera\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dependencies\stb_image\stb_image\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\dependencies\glm\.appveyor.yml" />
@@ -118,6 +130,7 @@
     <None Include="src\dependencies\glm\manual.md" />
     <None Include="src\dependencies\glm\readme.md" />
     <None Include="res\Shaders\cube.shader" />
+    <None Include="res\Shaders\man.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />

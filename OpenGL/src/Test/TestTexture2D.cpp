@@ -1,6 +1,6 @@
 #include "TestTexture2D.h"
 #include "glad/glad.h"
-#include "glm/glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include "Window.h"
 #include "Renderer.h"
 #include "imgui.h"
