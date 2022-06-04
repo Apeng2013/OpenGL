@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\dependencies\stb_image\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\Geometry\Cube.cpp" />
     <ClCompile Include="src\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
@@ -181,6 +182,7 @@
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\dependencies\stb_image\stb_image\stb_image.h" />
+    <ClInclude Include="src\Geometry\Cube.h" />
     <ClInclude Include="src\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Model\Mesh.h" />
@@ -199,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\cube.shader" />
+    <None Include="res\Shaders\cube_stencil.shader" />
     <None Include="res\Shaders\man.shader" />
     <None Include="src\dependencies\glm\.appveyor.yml" />
     <None Include="src\dependencies\glm\.gitignore" />

@@ -69,6 +69,9 @@
     <ClCompile Include="src\Model\Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Geometry\Cube.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -122,6 +125,9 @@
     <ClInclude Include="src\Model\Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Geometry\Cube.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\dependencies\glm\.appveyor.yml" />
@@ -131,6 +137,7 @@
     <None Include="src\dependencies\glm\readme.md" />
     <None Include="res\Shaders\cube.shader" />
     <None Include="res\Shaders\man.shader" />
+    <None Include="res\Shaders\cube_stencil.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />

@@ -19,7 +19,6 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 Renderer::Renderer()
 {
-	GLCALL(glEnable(GL_DEPTH_TEST));
 }
 
 Renderer::~Renderer()
@@ -29,7 +28,7 @@ Renderer::~Renderer()
 void Renderer::Clear()
 {
 	GLCALL(glClearColor(0.3, 0.6, 0.8, 1.0));
-	GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+	GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 }
 
 void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)
