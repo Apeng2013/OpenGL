@@ -7,6 +7,7 @@
 #include "Test/TestManager.h"
 #include "Test/TestColor.h"
 #include "Test/TestTexture2D.h"
+#include "Test/TestBlend.h"
 #include "ImGui/ImGuiLayer.h"
 
 
@@ -57,6 +58,7 @@ int main()
 	Test::TestManager test_mgr;
 	test_mgr.PushTest<Test::TestColor>("Test Color");
 	test_mgr.PushTest<Test::TestTexture2D>("Test Texture2D");
+	test_mgr.PushTest<Test::TestBlend>("Test Blend");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();

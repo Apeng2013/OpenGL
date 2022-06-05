@@ -72,6 +72,12 @@
     <ClCompile Include="src\Geometry\Cube.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\TestBlend.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Geometry\Rectangle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -126,6 +132,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\Geometry\Cube.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\TestBlend.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Geometry\Rectangle.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
