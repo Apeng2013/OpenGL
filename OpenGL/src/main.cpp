@@ -42,6 +42,7 @@ int main()
 {
 
 	int width = 960, height = 720;
+
 	Camera& camera = Camera::GetCamera();
 	camera.InitParam(width, height);
 

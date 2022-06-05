@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 
 Rectangle::Rectangle(float width, float height)
+	:m_Width(width), m_Height(height)
 {
 	glGenVertexArrays(1, &m_VertexArray);
 	glBindVertexArray(m_VertexArray);
@@ -39,6 +40,9 @@ Rectangle::Rectangle(float width, float height)
 
 Rectangle::~Rectangle()
 {
+	glDeleteVertexArrays(1, &m_VertexArray);
+	glDeleteBuffers(0, &m_VertexBuffer);
+	glDeleteBuffers(0, &m_IndexBuffer);
 }
 
 void Rectangle::Draw(Shader& shader)

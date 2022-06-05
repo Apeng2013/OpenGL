@@ -37,7 +37,7 @@ namespace Test {
 		m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 2 * 3);
 
 		// shader
-		m_Shader = std::make_unique<Shader>("res/Shaders/TestTexture2D.shader");
+		m_Shader = std::make_unique<Shader>("res/Shaders/TestTexture2D/TestTexture2D.shader");
 		m_Shader->Bind();
 
 		m_Texture = std::make_unique<Texture>("res/Textures/letter_p.png");

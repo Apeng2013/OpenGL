@@ -31,10 +31,7 @@ namespace Test {
 		glm::mat4 view = camera.GetViewMatrix();
 
 		Window& window = Window::GetWindow();
-		float width = static_cast<float>(window.GetWidth());
-		float height = static_cast<float>(window.GetHeight());
-
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 1000.0f);
+		glm::mat4 projection = Window::GetWindow().GetProjectionMatrix();
 
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0f));
 
@@ -51,7 +48,6 @@ namespace Test {
 		m_Shader.SetUniform1i("uTexture", 1);
 		m_Shader.SetUniformMat4f("uModel", model);
 		m_Window_1.Draw(m_Shader);
-
 	}
 
 	void TestBlend::OnImGuiRender()

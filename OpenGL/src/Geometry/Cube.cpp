@@ -85,6 +85,9 @@ Cube::Cube(float width, float height, float length):
 
 Cube::~Cube()
 {
+	glDeleteVertexArrays(1, &m_VertexArray);
+	glDeleteBuffers(0, &m_VertexBuffer);
+	glDeleteBuffers(0, &m_IndexBuffer);
 }
 
 void Cube::Draw(Shader& shader)

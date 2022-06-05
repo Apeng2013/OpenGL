@@ -13,5 +13,4 @@ public:
 private:
 	float m_Width, m_Height, m_Length;
 	unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
-	unsigned int m_Texture;
 };

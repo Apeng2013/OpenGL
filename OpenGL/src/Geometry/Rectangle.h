@@ -9,7 +9,6 @@ public:
 
 	void Draw(Shader& shader);
 private:
-	float m_Width, m_Height, m_Length;
+	float m_Width, m_Height;
 	unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
-	unsigned int m_Texture;
 };

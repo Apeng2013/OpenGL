@@ -2,6 +2,7 @@
 
 #include "GLFW/glfw3.h"
 #include <string>
+#include "glm/glm.hpp"
 
 
 class Window
@@ -25,6 +26,7 @@ public:
 
 	inline unsigned int GetWidth() const { return m_Width; }
 	inline unsigned int GetHeight() const { return m_Height; }
+	inline glm::mat4 GetProjectionMatrix() const { return m_ProjMatrix; }
 
 public:
 	Window(Window& window) = delete;
@@ -33,4 +35,5 @@ public:
 private:
 	GLFWwindow* m_Window;
 	unsigned int m_Width, m_Height;
+	glm::mat4 m_ProjMatrix;
 };
