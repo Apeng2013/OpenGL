@@ -27,9 +27,5 @@ namespace Test {
 		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 		std::unique_ptr<Shader> m_Shader;
 		std::unique_ptr<Texture> m_Texture;
-
-		glm::mat4 m_Proj, m_View, m_Model;
-
-		float m_Position1[2], m_Position2[2];
 	};
 }

@@ -5,8 +5,13 @@
 class Camera
 {
 public:
-	Camera(int width, int height);
-	~Camera();
+	void InitParam(int width, int height);
+
+	static Camera& GetCamera()
+	{
+		static Camera camera;
+		return camera;
+	}
 
 	const glm::mat4& GetViewMatrix() const { return m_ViewMat; };
 	const glm::vec3& GetPosition() const { return m_Position; };
@@ -26,4 +31,11 @@ private:
 	glm::vec3 m_ForwardDir;
 	glm::vec3 m_UpDir;
 	glm::mat4 m_ViewMat;
+
+private:
+	Camera();
+	~Camera();
+	Camera(Camera& other);
+	Camera& operator=(Camera& other);
+
 };

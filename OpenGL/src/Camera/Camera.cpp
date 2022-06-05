@@ -2,8 +2,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "GLFW/glfw3.h"
 
-Camera::Camera(int width, int height)
-	:m_Lastx(width / 2), m_Lasty(height / 2), m_MouseSensitivity(0.1f), m_Pitch(0.0f), m_Yaw(90.0f), m_FirstMouseEnter(true),
+Camera::Camera()
+	:m_Lastx(0.0f), m_Lasty(0.0f), m_MouseSensitivity(0.1f), m_Pitch(0.0f), m_Yaw(90.0f), m_FirstMouseEnter(true),
 	m_Position{ 0.0f, 0.0f, 0.0f }, m_ForwardDir{ 0.0f, 0.0f, 1.0f }, m_UpDir{ 0.0f, 1.0f, 0.0f }, m_ViewMat(glm::mat4(1.0f))
 {
 	m_ViewMat = glm::lookAt(m_Position, m_Position - m_ForwardDir, m_UpDir);
@@ -11,6 +11,12 @@ Camera::Camera(int width, int height)
 
 Camera::~Camera()
 {
+}
+
+void Camera::InitParam(int width, int height)
+{
+    m_Lastx = float(width) / 2.0f;
+    m_Lasty = float(height) / 2.0f;
 }
 
 void Camera::SetPosition(float x, float y, float z)

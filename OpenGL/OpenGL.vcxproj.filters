@@ -138,6 +138,7 @@
     <None Include="res\Shaders\cube.shader" />
     <None Include="res\Shaders\man.shader" />
     <None Include="res\Shaders\cube_stencil.shader" />
+    <None Include="res\Shaders\TestTexture2D.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />

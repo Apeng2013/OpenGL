@@ -203,6 +203,7 @@
     <None Include="res\Shaders\cube.shader" />
     <None Include="res\Shaders\cube_stencil.shader" />
     <None Include="res\Shaders\man.shader" />
+    <None Include="res\Shaders\TestTexture2D.shader" />
     <None Include="src\dependencies\glm\.appveyor.yml" />
     <None Include="src\dependencies\glm\.gitignore" />
     <None Include="src\dependencies\glm\.travis.yml" />
