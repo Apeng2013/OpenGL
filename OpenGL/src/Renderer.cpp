@@ -19,6 +19,7 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 Renderer::Renderer()
 {
+	glEnable(GL_DEPTH_TEST);
 }
 
 Renderer::~Renderer()
