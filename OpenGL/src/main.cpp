@@ -11,6 +11,7 @@
 #include "Test/TestBlend.h"
 #include "Test/TestCullFace.h"
 #include "Test/TestFrameBuffer.h"
+#include "Test/TestPostProcess.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -64,6 +65,7 @@ int main()
 	test_mgr.PushTest<Test::TestBlend>("Test Blend");
 	test_mgr.PushTest<Test::TestCullFace>("Test CullFace");
 	test_mgr.PushTest<Test::TestFrameBuffer>("Test FrameBuffer");
+	test_mgr.PushTest<Test::TestPostProcess>("Test PostProcess");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();

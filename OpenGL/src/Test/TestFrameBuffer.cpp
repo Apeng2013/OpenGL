@@ -40,6 +40,9 @@ namespace Test {
 	}
 	void TestFrameBuffer::OnUpdate(float delta_time)
 	{
+	}
+	void TestFrameBuffer::OnRender()
+	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
 		glClearColor(0.2, 0.6, 0.5, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -76,10 +79,6 @@ namespace Test {
 		m_Shader.SetUniform1i("uTexture", 1);
 		m_Shader.SetUniformMat4f("uModel", model);
 		m_Rectangle.Draw(m_Shader);
-
-	}
-	void TestFrameBuffer::OnRender()
-	{
 	}
 	void TestFrameBuffer::OnImGuiRender()
 	{

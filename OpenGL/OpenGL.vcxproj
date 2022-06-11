@@ -168,6 +168,7 @@
     <ClCompile Include="src\Test\TestCullFace.cpp" />
     <ClCompile Include="src\Test\TestFrameBuffer.cpp" />
     <ClCompile Include="src\Test\TestManager.cpp" />
+    <ClCompile Include="src\Test\TestPostProcess.cpp" />
     <ClCompile Include="src\Test\TestTexture2D.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src\Test\TestCullFace.h" />
     <ClInclude Include="src\Test\TestFrameBuffer.h" />
     <ClInclude Include="src\Test\TestManager.h" />
+    <ClInclude Include="src\Test\TestPostProcess.h" />
     <ClInclude Include="src\Test\TestTexture2D.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\VertexArray.h" />
