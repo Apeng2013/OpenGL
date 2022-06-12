@@ -14,6 +14,7 @@
 #include "Test/TestPostProcess.h"
 #include "Test/TestCubeMap.h"
 #include "Test/TestGLSL.h"
+#include "Test/TestGeometryShader.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -70,6 +71,7 @@ int main()
 	test_mgr.PushTest<Test::TestPostProcess>("Test PostProcess");
 	test_mgr.PushTest<Test::TestCubeMap>("Test CubeMap");
 	test_mgr.PushTest<Test::TestGLSL>("Test GLSL");
+	test_mgr.PushTest<Test::TestGeometryShader>("Test GeometryShader");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();

@@ -8,7 +8,7 @@
 Shader::Shader(const std::string& filepath)
 {
 	ShaderSource shaderSource = PaserShaderFile(filepath);
-	m_RendererID = CreateShader(shaderSource.vertexShaderSource, shaderSource.fragmentShaderSource);
+	m_RendererID = CreateShader(shaderSource.vertexShaderSource, shaderSource.fragmentShaderSource, shaderSource.geometryShaderSource);
 }
 
 Shader::~Shader()
@@ -80,12 +80,12 @@ ShaderSource Shader::PaserShaderFile(const std::string& filepath)
 {
 	enum class ShaderType
 	{
-		None = -1, vertex = 0, fragment = 1
+		None = -1, vertex = 0, fragment = 1, geometry = 2,
 	};
 
 	std::ifstream fs(filepath);
 	std::string line;
-	std::stringstream shaders[2];
+	std::stringstream shaders[3];
 	ShaderType shaderType;
 	while (std::getline(fs, line))
 	{
@@ -99,13 +99,17 @@ ShaderSource Shader::PaserShaderFile(const std::string& filepath)
 			{
 				shaderType = ShaderType::fragment;
 			}
+			else if (line.find("geometry") != std::string::npos)
+			{
+				shaderType = ShaderType::geometry;
+			}
 		}
 		else
 		{
 			shaders[(int)shaderType] << line << '\n';
 		}
 	}
-	return { shaders[0].str(), shaders[1].str() };
+	return { shaders[0].str(), shaders[1].str(), shaders[2].str() };
 }
 
 unsigned int Shader::CompileShader(const char* shaderSource, unsigned int shaderType)
@@ -125,7 +129,7 @@ unsigned int Shader::CompileShader(const char* shaderSource, unsigned int shader
 	return shader;
 }
 
-unsigned int Shader::CreateShader(const std::string& vertexSource, const std::string& fragmentSource)
+unsigned int Shader::CreateShader(const std::string& vertexSource, const std::string& fragmentSource, const std::string& geometrySource)
 {
 	unsigned int vertexShader = CompileShader(vertexSource.c_str(), GL_VERTEX_SHADER);
 	unsigned int fragmentShader = CompileShader(fragmentSource.c_str(), GL_FRAGMENT_SHADER);
@@ -134,6 +138,11 @@ unsigned int Shader::CreateShader(const std::string& vertexSource, const std::st
 	GLCALL(unsigned int program = glCreateProgram());
 	GLCALL(glAttachShader(program, vertexShader));
 	GLCALL(glAttachShader(program, fragmentShader));
+	if (geometrySource != "")
+	{
+		unsigned int geometryShader = CompileShader(geometrySource.c_str(), GL_GEOMETRY_SHADER);
+		GLCALL(glAttachShader(program, geometryShader));
+	}
 	GLCALL(glLinkProgram(program));
 
 	int success;

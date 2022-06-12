@@ -96,8 +96,8 @@ namespace Test {
 	TestCullFace::~TestCullFace()
 	{
 		glDeleteVertexArrays(1, &m_VertexArray);
-		glDeleteBuffers(0, &m_VertexBuffer);
-		glDeleteBuffers(0, &m_IndexBuffer);
+		glDeleteBuffers(1, &m_VertexBuffer);
+		glDeleteBuffers(1, &m_IndexBuffer);
 		glDisable(GL_CULL_FACE);
 	}
 	void TestCullFace::OnUpdate(float delta_time)

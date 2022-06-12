@@ -41,8 +41,8 @@ Rectangle::Rectangle(float width, float height)
 Rectangle::~Rectangle()
 {
 	glDeleteVertexArrays(1, &m_VertexArray);
-	glDeleteBuffers(0, &m_VertexBuffer);
-	glDeleteBuffers(0, &m_IndexBuffer);
+	glDeleteBuffers(1, &m_VertexBuffer);
+	glDeleteBuffers(1, &m_IndexBuffer);
 }
 
 void Rectangle::Draw(Shader& shader)
