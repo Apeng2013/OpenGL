@@ -5,15 +5,15 @@ layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 normal;
 layout(location = 2) in vec2 texCoord;
 
-out vec2 v_texCoord;
+out vec3 v_texCoord;
 uniform mat4 uProj;
 uniform mat4 uView;
-uniform mat4 uModel;
 
 void main()
 {
-	v_texCoord = texCoord;
-	gl_Position = uProj * uView * uModel * vec4(aPos, 1.0);
+	v_texCoord = aPos;
+	vec4 pos = uProj * uView * vec4(aPos, 1.0);
+	gl_Position = vec4(pos.x, pos.y, pos.w, pos.w);
 }
 
 
@@ -23,8 +23,8 @@ void main()
 
 out vec4 color;
 
-in vec2 v_texCoord;
-uniform sampler2D uTexture;
+in vec3 v_texCoord;
+uniform samplerCube uTexture;
 
 void main()
 {

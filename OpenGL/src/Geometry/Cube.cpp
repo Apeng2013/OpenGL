@@ -1,8 +1,8 @@
 #include "Cube.h"
 #include "glad/glad.h"
 
-Cube::Cube(float width, float height, float length):
-	m_Width(width), m_Height(height), m_Length(length)
+Cube::Cube(float size):
+	m_Size(size)
 {
 	glGenVertexArrays(1, &m_VertexArray);
 	glBindVertexArray(m_VertexArray);
@@ -51,6 +51,13 @@ Cube::Cube(float width, float height, float length):
 		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 	};
+
+	for (int i = 0; i < 36; i++)
+	{
+		vertices[i * 8] *= size;
+		vertices[i * 8 + 1] *= size;
+		vertices[i * 8 + 2] *= size;
+	}
 
 	glGenBuffers(1, &m_VertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);

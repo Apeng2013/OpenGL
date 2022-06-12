@@ -87,6 +87,9 @@
     <ClCompile Include="src\Test\TestPostProcess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\TestCubeMap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -156,6 +159,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\Test\TestPostProcess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test\TestCubeMap.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
