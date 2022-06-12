@@ -29,6 +29,8 @@ public:
 	void SetUniformMat4f(const std::string& name, glm::mat4& matrix);
 	int GetUniformLocation(const std::string& name);
 
+	inline unsigned int GetID() const { return m_RendererID; }
+
 private:
 	ShaderSource PaserShaderFile(const std::string& filepath);
 	unsigned int CompileShader(const char* shaderSource, unsigned int shaderType);
