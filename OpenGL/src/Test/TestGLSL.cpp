@@ -27,7 +27,7 @@ namespace Test {
 
 	TestGLSL::~TestGLSL()
 	{
-
+		glDeleteBuffers(GL_UNIFORM_BUFFER, &m_UniformBuffer);
 	}
 	void TestGLSL::OnUpdate(float delta_time)
 	{
