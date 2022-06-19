@@ -170,6 +170,7 @@
     <ClCompile Include="src\Test\TestFrameBuffer.cpp" />
     <ClCompile Include="src\Test\TestGeometryShader.cpp" />
     <ClCompile Include="src\Test\TestGLSL.cpp" />
+    <ClCompile Include="src\Test\TestInstance.cpp" />
     <ClCompile Include="src\Test\TestManager.cpp" />
     <ClCompile Include="src\Test\TestPostProcess.cpp" />
     <ClCompile Include="src\Test\TestTexture2D.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="src\Test\TestFrameBuffer.h" />
     <ClInclude Include="src\Test\TestGeometryShader.h" />
     <ClInclude Include="src\Test\TestGLSL.h" />
+    <ClInclude Include="src\Test\TestInstance.h" />
     <ClInclude Include="src\Test\TestManager.h" />
     <ClInclude Include="src\Test\TestPostProcess.h" />
     <ClInclude Include="src\Test\TestTexture2D.h" />
@@ -220,6 +222,7 @@
     <None Include="res\Shaders\cube_stencil.shader" />
     <None Include="res\Shaders\man.shader" />
     <None Include="res\Shaders\TestGeometryShader\base.shader" />
+    <None Include="res\Shaders\TestInstance\base.shader" />
     <None Include="res\Shaders\TestTexture2d\TestTexture2D.shader" />
     <None Include="src\dependencies\glm\.appveyor.yml" />
     <None Include="src\dependencies\glm\.gitignore" />

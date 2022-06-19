@@ -7,14 +7,17 @@ Rectangle::Rectangle(float width, float height)
 	glGenVertexArrays(1, &m_VertexArray);
 	glBindVertexArray(m_VertexArray);
 
+	float half_width = width / 2.0f;
+	float half_height = height / 2.0f;
+
 	float vertices[] = {
 		// positions          // normals           // texture coords
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+		-half_width, -half_height,  0.0f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+		 half_width, -half_height,  0.0f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+		 half_width,  half_height,  0.0f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		 half_width,  half_height,  0.0f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		-half_width,  half_height,  0.0f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+		-half_width, -half_height,  0.0f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 	};
 
 	glGenBuffers(1, &m_VertexBuffer);
