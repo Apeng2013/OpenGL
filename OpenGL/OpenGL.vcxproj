@@ -163,6 +163,7 @@
     <ClCompile Include="src\Model\Model.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Test\TestAntiAliasing.cpp" />
     <ClCompile Include="src\Test\TestBlend.cpp" />
     <ClCompile Include="src\Test\TestColor.cpp" />
     <ClCompile Include="src\Test\TestCubeMap.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Test\Test.h" />
+    <ClInclude Include="src\Test\TestAntiAliasing.h" />
     <ClInclude Include="src\Test\TestBlend.h" />
     <ClInclude Include="src\Test\TestColor.h" />
     <ClInclude Include="src\Test\TestCubeMap.h" />
@@ -221,6 +223,7 @@
     <None Include="res\Shaders\cube.shader" />
     <None Include="res\Shaders\cube_stencil.shader" />
     <None Include="res\Shaders\man.shader" />
+    <None Include="res\Shaders\TestAntiAliasing\base.shader" />
     <None Include="res\Shaders\TestGeometryShader\base.shader" />
     <None Include="res\Shaders\TestInstance\base.shader" />
     <None Include="res\Shaders\TestTexture2d\TestTexture2D.shader" />

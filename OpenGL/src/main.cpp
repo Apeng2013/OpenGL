@@ -16,6 +16,7 @@
 #include "Test/TestGLSL.h"
 #include "Test/TestGeometryShader.h"
 #include "Test/TestInstance.h"
+#include "Test/TestAntiAliasing.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -74,6 +75,7 @@ int main()
 	test_mgr.PushTest<Test::TestGLSL>("Test GLSL");
 	test_mgr.PushTest<Test::TestGeometryShader>("Test GeometryShader");
 	test_mgr.PushTest<Test::TestInstance>("Test Instance");
+	test_mgr.PushTest<Test::TestAntiAliasing>("Test AntiAliasing");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();
