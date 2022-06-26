@@ -230,6 +230,8 @@
     <None Include="res\Shaders\TestAntiAliasing\base.shader" />
     <None Include="res\Shaders\TestGeometryShader\base.shader" />
     <None Include="res\Shaders\TestInstance\base.shader" />
+    <None Include="res\Shaders\TestPointShadow\base.shader" />
+    <None Include="res\Shaders\TestPointShadow\shadow.shader" />
     <None Include="res\Shaders\TestShadowMapping\base.shader" />
     <None Include="res\Shaders\TestShadowMapping\shadow.shader" />
     <None Include="res\Shaders\TestTexture2d\TestTexture2D.shader" />

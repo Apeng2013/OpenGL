@@ -41,7 +41,7 @@ void Window::Init(unsigned int width, unsigned int height, const std::string& na
 	GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	GLCALL(glEnable(GL_BLEND));
 
-	m_ProjMatrix = glm::perspective(glm::radians(45.0f), float(width) / float(height), 0.1f, 1000.0f);
+	m_ProjMatrix = glm::perspective(45.0f, float(width) / float(height), 0.1f, 1000.0f);
 }
 
 void Window::Update() const
