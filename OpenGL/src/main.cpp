@@ -19,6 +19,7 @@
 #include "Test/TestAntiAliasing.h"
 #include "Test/TestShadowMapping.h"
 #include "Test/TestPointShadow.h"
+#include "Test/TestNormalTexture.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -80,6 +81,7 @@ int main()
 	test_mgr.PushTest<Test::TestAntiAliasing>("Test AntiAliasing");
 	test_mgr.PushTest<Test::TestShadowMapping>("Test ShadowMapping");
 	test_mgr.PushTest<Test::TestPointShadow>("Test PointShadow");
+	test_mgr.PushTest<Test::TestNormalTexture>("Test NormalTexture");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();
