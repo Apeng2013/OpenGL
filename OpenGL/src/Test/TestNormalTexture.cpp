@@ -71,16 +71,24 @@ namespace Test {
 		m_NormalTex.Bind(1);
 		m_Shader.SetUniform1i("uTexture", 0);
 		m_Shader.SetUniform1i("uNormalTex", 1);
-		m_Shader.SetUniform1i("uShinness", 32);
+
 		m_Shader.SetUniformMat4f("uProj", projection);
 		m_Shader.SetUniformMat4f("uView", view);
 		m_Shader.SetUniformMat4f("uModel", model);
-		m_Shader.SetUniformMat4f("uTangentSpace", tangent_mat);
-		m_Shader.SetUniform3f("uDirectionLight.direction", 0.0f, 1.0f, -1.0f);
-		m_Shader.SetUniform3f("uDirectionLight.ambient", 0.1f, 0.2f, 0.3f);
-		m_Shader.SetUniform3f("uDirectionLight.diffuse", 0.5f, 0.5f, 0.5f);
-		m_Shader.SetUniform3f("uDirectionLight.specular", 0.8f, 0.8f, 0.8f);
+		m_Shader.SetUniform3f("uLightPos", 0.0f, 0.0f, 0.0f);
 		m_Shader.SetUniform3f("uCameraPos", camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
+
+		m_Shader.SetUniformMat4f("uTangentSpace", tangent_mat);
+
+		m_Shader.SetUniform1i("uShinness", 32);
+		m_Shader.SetUniform3f("uPointLight.position", 0.0f, 0.0f, 0.0f);
+		m_Shader.SetUniform3f("uPointLight.ambient", 0.1f, 0.1f, 0.1f);
+		m_Shader.SetUniform3f("uPointLight.diffuse", 0.5f, 0.5f, 0.5f);
+		m_Shader.SetUniform3f("uPointLight.specular", 0.8f, 0.8f, 0.8f);
+		m_Shader.SetUniform1f("uPointLight.constanct", 1.0f);
+		m_Shader.SetUniform1f("uPointLight.linear", 0.07f);
+		m_Shader.SetUniform1f("uPointLight.quadratic", 0.017f);
+
 		m_Wall.Draw(m_Shader);
 	}
 
