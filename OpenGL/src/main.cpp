@@ -21,6 +21,7 @@
 #include "Test/TestPointShadow.h"
 #include "Test/TestNormalTexture.h"
 #include "Test/TestParallaxMapping.h"
+#include "Test/TestHDR.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -84,6 +85,7 @@ int main()
 	test_mgr.PushTest<Test::TestPointShadow>("Test PointShadow");
 	test_mgr.PushTest<Test::TestNormalTexture>("Test NormalTexture");
 	test_mgr.PushTest<Test::TestParallaxMapping>("Test ParallaxMapping");
+	test_mgr.PushTest<Test::TestHDR>("Test HDR");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();

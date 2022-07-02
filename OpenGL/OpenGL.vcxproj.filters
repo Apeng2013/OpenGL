@@ -114,6 +114,9 @@
     <ClCompile Include="src\Test\TestParallaxMapping.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\TestHDR.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -212,6 +215,9 @@
     <ClInclude Include="src\Test\TestParallaxMapping.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Test\TestHDR.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\dependencies\glm\.appveyor.yml" />
@@ -232,6 +238,8 @@
     <None Include="res\Shaders\TestPointShadow\shadow.shader" />
     <None Include="res\Shaders\TestNormalTexture\base.shader" />
     <None Include="res\Shaders\TestParallaxMapping\base.shader" />
+    <None Include="res\Shaders\TestHDR\base.shader" />
+    <None Include="res\Shaders\TestHDR\hdr.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />
