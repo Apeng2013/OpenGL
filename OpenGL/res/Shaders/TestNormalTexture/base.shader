@@ -71,6 +71,7 @@ void main()
 
 	vec3 tex_color = vec3(texture(uTexture, fs_in.v_texCoord));
 	vec3 normal = vec3(texture(uNormalTex, fs_in.v_texCoord));
+	normal = normalize(normal * 2.0 - 1.0);
 
 	vec3 light_dir = normalize(fs_in.v_TangentLightPos - fs_in.v_TangentFragPos);
 
@@ -85,7 +86,7 @@ void main()
 	vec3 view_dir = normalize(fs_in.v_TangentCameraPos - fs_in.v_TangentFragPos);
 	vec3 reflect_dir = reflect(-light_dir, normal);
 	float spec = pow(max(0, dot(reflect_dir, view_dir)), uShinness);
-	vec3 specular = attenuation * spec * vec3(0.05);
+	vec3 specular = attenuation * spec * vec3(0.2);
 
-	color = vec4(ambient + diffuse, 1.0);
+	color = vec4(ambient + diffuse + specular, 1.0);
 }
