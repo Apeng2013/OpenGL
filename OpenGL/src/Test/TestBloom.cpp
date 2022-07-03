@@ -93,6 +93,17 @@ namespace Test {
 
 	TestBloom::~TestBloom()
 	{
+		glDeleteFramebuffers(1, &m_ScreenFrameBuffer);
+		glDeleteTextures(1, &m_ScreenTex);
+		glDeleteTextures(1, &m_BrightTex);
+		glDeleteRenderbuffers(1, &m_RenderBuffer);
+
+		glDeleteFramebuffers(1, &m_GaussianFrameBuffer1);
+		glDeleteTextures(1, &m_Texture1);
+		glDeleteRenderbuffers(1, &m_RenderBuffer1);
+		glDeleteFramebuffers(1, &m_GaussianFrameBuffer2);
+		glDeleteTextures(1, &m_Texture2);
+		glDeleteRenderbuffers(1, &m_RenderBuffer2);
 	}
 
 	void TestBloom::OnUpdate(float delta_time)

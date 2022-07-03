@@ -120,6 +120,9 @@
     <ClCompile Include="src\Test\TestBloom.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Test\TestGBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -224,6 +227,9 @@
     <ClInclude Include="src\Test\TestBloom.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Test\TestGBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\dependencies\glm\.appveyor.yml" />
@@ -250,6 +256,8 @@
     <None Include="res\Shaders\TestBloom\light.shader" />
     <None Include="res\Shaders\TestBloom\bloom.shader" />
     <None Include="res\Shaders\TestBloom\screen.shader" />
+    <None Include="res\Shaders\TestGBuffer\base.shader" />
+    <None Include="res\Shaders\TestGBuffer\gbuffer.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />

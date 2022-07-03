@@ -23,6 +23,7 @@
 #include "Test/TestParallaxMapping.h"
 #include "Test/TestHDR.h"
 #include "Test/TestBloom.h"
+#include "Test/TestGBuffer.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -88,6 +89,7 @@ int main()
 	test_mgr.PushTest<Test::TestParallaxMapping>("Test ParallaxMapping");
 	test_mgr.PushTest<Test::TestHDR>("Test HDR");
 	test_mgr.PushTest<Test::TestBloom>("Test Bloom");
+	test_mgr.PushTest<Test::TestGBuffer>("Test GBuffer");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();
