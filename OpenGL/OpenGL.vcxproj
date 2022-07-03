@@ -165,6 +165,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Test\TestAntiAliasing.cpp" />
     <ClCompile Include="src\Test\TestBlend.cpp" />
+    <ClCompile Include="src\Test\TestBloom.cpp" />
     <ClCompile Include="src\Test\TestColor.cpp" />
     <ClCompile Include="src\Test\TestCubeMap.cpp" />
     <ClCompile Include="src\Test\TestCullFace.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\Test\Test.h" />
     <ClInclude Include="src\Test\TestAntiAliasing.h" />
     <ClInclude Include="src\Test\TestBlend.h" />
+    <ClInclude Include="src\Test\TestBloom.h" />
     <ClInclude Include="src\Test\TestColor.h" />
     <ClInclude Include="src\Test\TestCubeMap.h" />
     <ClInclude Include="src\Test\TestCullFace.h" />
@@ -234,6 +236,10 @@
     <None Include="res\Shaders\cube_stencil.shader" />
     <None Include="res\Shaders\man.shader" />
     <None Include="res\Shaders\TestAntiAliasing\base.shader" />
+    <None Include="res\Shaders\TestBloom\base.shader" />
+    <None Include="res\Shaders\TestBloom\bloom.shader" />
+    <None Include="res\Shaders\TestBloom\light.shader" />
+    <None Include="res\Shaders\TestBloom\screen.shader" />
     <None Include="res\Shaders\TestGeometryShader\base.shader" />
     <None Include="res\Shaders\TestHDR\base.shader" />
     <None Include="res\Shaders\TestHDR\hdr.shader" />
