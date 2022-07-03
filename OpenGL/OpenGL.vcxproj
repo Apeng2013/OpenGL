@@ -181,6 +181,7 @@
     <ClCompile Include="src\Test\TestPointShadow.cpp" />
     <ClCompile Include="src\Test\TestPostProcess.cpp" />
     <ClCompile Include="src\Test\TestShadowMapping.cpp" />
+    <ClCompile Include="src\Test\TestSSAO.cpp" />
     <ClCompile Include="src\Test\TestTexture2D.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="src\Test\TestPointShadow.h" />
     <ClInclude Include="src\Test\TestPostProcess.h" />
     <ClInclude Include="src\Test\TestShadowMapping.h" />
+    <ClInclude Include="src\Test\TestSSAO.h" />
     <ClInclude Include="src\Test\TestTexture2D.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\VertexArray.h" />
@@ -254,6 +256,9 @@
     <None Include="res\Shaders\TestPointShadow\shadow.shader" />
     <None Include="res\Shaders\TestShadowMapping\base.shader" />
     <None Include="res\Shaders\TestShadowMapping\shadow.shader" />
+    <None Include="res\Shaders\TestSSAO\base.shader" />
+    <None Include="res\Shaders\TestSSAO\screen.shader" />
+    <None Include="res\Shaders\TestSSAO\ssao.shader" />
     <None Include="res\Shaders\TestTexture2d\TestTexture2D.shader" />
     <None Include="src\dependencies\glm\.appveyor.yml" />
     <None Include="src\dependencies\glm\.gitignore" />

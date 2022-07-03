@@ -24,6 +24,7 @@
 #include "Test/TestHDR.h"
 #include "Test/TestBloom.h"
 #include "Test/TestGBuffer.h"
+#include "Test/TestSSAO.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -90,6 +91,7 @@ int main()
 	test_mgr.PushTest<Test::TestHDR>("Test HDR");
 	test_mgr.PushTest<Test::TestBloom>("Test Bloom");
 	test_mgr.PushTest<Test::TestGBuffer>("Test GBuffer");
+	test_mgr.PushTest<Test::TestSSAO>("Test SSAO");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();
