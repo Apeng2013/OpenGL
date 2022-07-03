@@ -15,7 +15,7 @@ namespace Test {
 
 		glGenTextures(1, &m_PosBuffer);
 		glBindTexture(GL_TEXTURE_2D, m_PosBuffer);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16, 960, 720, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 960, 720, 0, GL_RGB, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

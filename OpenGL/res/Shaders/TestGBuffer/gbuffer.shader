@@ -68,7 +68,7 @@ void main()
 
 	vec3 reflect_dir = reflect(-light_dir, normal);
 	float spec = pow(max(0, dot(reflect_dir, view_dir)), uShinness);
-	vec3 specular = attenuation * spec * uPointLight.specular;
+	vec3 specular = attenuation * spec * uPointLight.specular * frag_color;
 
 	color = vec4(ambient + diffuse + specular, 1.0);
 }
