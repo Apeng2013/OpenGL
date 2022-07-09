@@ -143,6 +143,7 @@ namespace Test {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_SSAOBuffer);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
+
 		m_SSAOShader.Bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_PosBuffer);

@@ -25,6 +25,7 @@
 #include "Test/TestBloom.h"
 #include "Test/TestGBuffer.h"
 #include "Test/TestSSAO.h"
+#include "Test/TestPBR.h"
 
 
 void OnCursorPosChange(GLFWwindow* window, double xpos, double ypos)
@@ -92,6 +93,7 @@ int main()
 	test_mgr.PushTest<Test::TestBloom>("Test Bloom");
 	test_mgr.PushTest<Test::TestGBuffer>("Test GBuffer");
 	test_mgr.PushTest<Test::TestSSAO>("Test SSAO");
+	test_mgr.PushTest<Test::TestPBR>("Test PBR");
 
 	ImGuiLayer imgui_layer;
 	imgui_layer.OnAttach();
