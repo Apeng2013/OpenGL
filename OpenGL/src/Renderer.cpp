@@ -28,7 +28,7 @@ Renderer::~Renderer()
 
 void Renderer::Clear()
 {
-	GLCALL(glClearColor(0.3, 0.6, 0.8, 1.0));
+	GLCALL(glClearColor(0.0, 0.0, 0.0, 1.0));
 	GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 }
 

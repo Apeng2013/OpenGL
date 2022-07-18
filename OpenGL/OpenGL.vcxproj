@@ -155,6 +155,7 @@
     <ClCompile Include="src\dependencies\stb_image\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Geometry\Cube.cpp" />
     <ClCompile Include="src\Geometry\Rectangle.cpp" />
+    <ClCompile Include="src\Geometry\Sphere.cpp" />
     <ClCompile Include="src\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="src\Test\TestGeometryShader.cpp" />
     <ClCompile Include="src\Test\TestGLSL.cpp" />
     <ClCompile Include="src\Test\TestHDR.cpp" />
+    <ClCompile Include="src\Test\TestIBL.cpp" />
     <ClCompile Include="src\Test\TestInstance.cpp" />
     <ClCompile Include="src\Test\TestManager.cpp" />
     <ClCompile Include="src\Test\TestNormalTexture.cpp" />
@@ -203,6 +205,7 @@
     <ClInclude Include="src\dependencies\stb_image\stb_image\stb_image.h" />
     <ClInclude Include="src\Geometry\Cube.h" />
     <ClInclude Include="src\Geometry\Rectangle.h" />
+    <ClInclude Include="src\Geometry\Sphere.h" />
     <ClInclude Include="src\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Model\Mesh.h" />
@@ -221,6 +224,7 @@
     <ClInclude Include="src\Test\TestGeometryShader.h" />
     <ClInclude Include="src\Test\TestGLSL.h" />
     <ClInclude Include="src\Test\TestHDR.h" />
+    <ClInclude Include="src\Test\TestIBL.h" />
     <ClInclude Include="src\Test\TestInstance.h" />
     <ClInclude Include="src\Test\TestManager.h" />
     <ClInclude Include="src\Test\TestNormalTexture.h" />
@@ -251,6 +255,9 @@
     <None Include="res\Shaders\TestGeometryShader\base.shader" />
     <None Include="res\Shaders\TestHDR\base.shader" />
     <None Include="res\Shaders\TestHDR\hdr.shader" />
+    <None Include="res\Shaders\TestIBL\base.shader" />
+    <None Include="res\Shaders\TestIBL\ibl.shader" />
+    <None Include="res\Shaders\TestIBL\prefilter.shader" />
     <None Include="res\Shaders\TestInstance\base.shader" />
     <None Include="res\Shaders\TestNormalTexture\base.shader" />
     <None Include="res\Shaders\TestParallaxMapping\base.shader" />
