@@ -16,13 +16,13 @@ Sphere::Sphere(float radius)
 	float PI = 3.1415926f;
 	int xCount = 64;
 	int yCount = 64;
-
-	for (int x = 0; x < xCount; x++)
+	//由上到下按层生成顶点、法线、纹理
+	for (int y = 0; y < yCount + 1; y++)
 	{
-		for (int y = 0; y < yCount; y++)
+		float yPercent = float(y) / float(yCount);
+		for (int x = 0; x < xCount; x++)
 		{
 			float xPercent = float(x) / float(xCount);
-			float yPercent = float(y) / float(yCount);
 
 			glm::vec3 pos;
 			pos.x = std::sin(PI * yPercent) * std::cos(2.0f * PI * xPercent);
@@ -35,28 +35,64 @@ Sphere::Sphere(float radius)
 		}
 	}
 
+	int vertex_count = positions.size();
+
 	std::vector<unsigned int> indices;
 
-	bool oddRow = false;
-	for (unsigned int y = 0; y < yCount; ++y)
+	//处理顶部三角形
+	for (int i = 0; i < xCount; i++)
 	{
-		if (!oddRow) // even rows: y == 0, y == 2; and so on
-		{
-			for (unsigned int x = 0; x <= xCount; ++x)
-			{
-				indices.push_back(y * (xCount + 1) + x);
-				indices.push_back((y + 1) * (xCount + 1) + x);
-			}
-		}
+		indices.push_back(i);
+		indices.push_back(i + xCount);
+		if (i == xCount - 1)
+			indices.push_back(xCount);
 		else
+			indices.push_back(i + xCount + 1);
+	}
+	//处理底部三角形
+
+	for (int i = 0; i < xCount; i++)
+	{
+		indices.push_back(vertex_count - 1 - i);
+		indices.push_back(vertex_count - 1 - i - xCount);
+		if (i == xCount - 1)
+			indices.push_back(vertex_count - 1 - xCount);
+		else
+			indices.push_back(vertex_count - 1 - i - xCount - 1);
+	}
+
+	//处理中间的顶点
+	//		1-----------4
+	//		|			|
+	//		|			|
+	//		|			|
+	//		2-----------3
+	// 三角形 （1,2,3）和（1,3,4）
+	for (int i = 1; i < yCount; i++)
+	{
+		int start_index = i * xCount;
+		for (int j = 0; j < xCount; j++)
 		{
-			for (int x = xCount; x >= 0; --x)
+			indices.push_back(start_index + j);
+			indices.push_back(start_index + j + xCount);
+			if (j == xCount - 1)
+				indices.push_back(start_index + xCount);
+			else
+				indices.push_back(start_index + j + xCount + 1);
+
+			indices.push_back(start_index + j);
+			if (j == xCount - 1)
 			{
-				indices.push_back((y + 1) * (xCount + 1) + x);
-				indices.push_back(y * (xCount + 1) + x);
+				indices.push_back(start_index + xCount);
+				indices.push_back(start_index);
+			}
+			else
+			{
+				indices.push_back(start_index + j + 1 + xCount);
+				indices.push_back(start_index + j + 1);
 			}
 		}
-		oddRow = !oddRow;
+
 	}
 
 	m_Count = indices.size();
@@ -103,5 +139,5 @@ void Sphere::Draw(Shader& shader)
 {
 	glBindVertexArray(m_VertexArray);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
-	glDrawElements(GL_TRIANGLE_STRIP, m_Count, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, m_Count, GL_UNSIGNED_INT, 0);
 }
