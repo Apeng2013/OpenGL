@@ -40,7 +40,7 @@ namespace Test {
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.5f));
 		for (int i = 0; i <= 10; i++)
 		{
-			m_Shader.SetUniform1f("uMetailic", float(i) / 10.0f);
+			m_Shader.SetUniform1f("uMetallic", float(i) / 10.0f);
 			for (int j = 0; j <= 10; j++)
 			{
 				glm::mat4 cur_model = glm::translate(model, glm::vec3(i * 2.0, j * 2.0, 0));

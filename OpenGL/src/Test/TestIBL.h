@@ -1,6 +1,6 @@
 #pragma once
 #include "Test.h"
-#include "Geometry/Cube.h"
+#include "Geometry/Sphere.h"
 
 namespace Test {
 	class TestIBL : public Test
@@ -14,7 +14,10 @@ namespace Test {
 		void OnImGuiRender() override;
 
 	private:
-		Cube m_Cube;
+		Sphere m_Sphere;
 		Shader m_Shader;
+
+		float m_Roughness;
+		float m_Metallic;
 	};
 }
