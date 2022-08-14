@@ -44,47 +44,13 @@ uniform vec3 uAlbedo;
 uniform float uMetallic;
 uniform float uRoughness;
 uniform float uAo;
-
-struct PointLight
-{
-	vec3 LightPos;
-	vec3 LightColor;
-};
-
-uniform PointLight[2] uPointLights;
+uniform samplerCube uIrradianceMap;
 
 const float PI = 3.14159265359;
 
-vec3 FresnelSchlick(vec3 f0, float cosTheta)
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
-	return f0 + (1 - f0) * pow(1 - cosTheta, 5.0);
-}
-
-
-float DistributionGGX(vec3 normal, vec3 h, float roughness)
-{
-	float a = roughness * roughness;
-	float b = dot(normal, h) * dot(normal, h) * (a - 1) + 1;
-
-	return a / (PI * b * b);
-}
-
-float GeometrySchlickGGX(float NdotV, float k)
-{
-	float nom = NdotV;
-	float denom = NdotV * (1.0 - k) + k;
-
-	return nom / denom;
-}
-
-float GeometrySmith(vec3 N, vec3 V, vec3 L, float k)
-{
-	float NdotV = max(dot(N, V), 0.0);
-	float NdotL = max(dot(N, L), 0.0);
-	float ggx1 = GeometrySchlickGGX(NdotV, k);
-	float ggx2 = GeometrySchlickGGX(NdotL, k);
-
-	return ggx1 * ggx2;
+	return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
 void main()
@@ -92,46 +58,20 @@ void main()
 	vec3 normal = normalize(fs_in.normal);
 	vec3 view_dir = normalize(uCameraPos - fs_in.fragPos);
 
-	vec3 Lo = vec3(0.0);
+	vec3 f0 = vec3(0.04);
+	f0 = mix(f0, uAlbedo, uMetallic);
 
-	for (int i = 0; i < 2; i++)
-	{
-		vec3 light_dir = normalize(uPointLights[i].LightPos - fs_in.fragPos);
-		vec3 half_dir = normalize(view_dir + light_dir);
+	vec3 kS = fresnelSchlickRoughness(max(dot(normal, view_dir), 0.0), f0, uRoughness);
+	vec3 kD = 1.0 - kS;
+	vec3 irradiance = texture(uIrradianceMap, normal).rgb;
 
-		float distance = length(uPointLights[i].LightPos - fs_in.fragPos);
-		float attenuation = 1.0 / (distance * distance);
-		vec3 radiance = uPointLights[i].LightColor * attenuation;
+	vec3 diffuse = irradiance * uAlbedo;
 
-		vec3 f0 = vec3(0.04);
-		f0 = mix(f0, uAlbedo, uMetallic);
+	vec3 ambient = (kD * diffuse) * uAo;
 
-		vec3 F = FresnelSchlick(f0, max(dot(normal, view_dir), 0));
+	ambient = ambient / (ambient + vec3(1.0));
+	ambient = pow(ambient, vec3(1.0 / 2.2));
 
-		float NDF = DistributionGGX(normal, half_dir, uRoughness);
-
-		float G = GeometrySmith(normal, view_dir, light_dir, uRoughness);
-
-		vec3 kS = F;
-		vec3 kD = vec3(1.0) - kS;
-		kD *= 1.0 - uMetallic;
-
-		vec3 nominator = NDF * G * F;
-		float denominator = 4.0 * max(dot(normal, view_dir), 0.0) * max(dot(normal, light_dir), 0.0) + 0.001;
-		vec3 specular = nominator / denominator;
-
-		// add to outgoing radiance Lo
-		float NdotL = max(dot(normal, light_dir), 0.0);
-		Lo += (kD * uAlbedo / PI + specular) * radiance * NdotL;
-
-	}
-
-	vec3 ambient = vec3(0.03) * uAlbedo * uAo;
-	vec3 color = ambient + Lo;
-
-	color = color / (color + vec3(1.0));
-	color = pow(color, vec3(1.0 / 2.2));
-
-	FragColor = vec4(color, 1.0);
+	FragColor = vec4(ambient, 1.0);
 }
 

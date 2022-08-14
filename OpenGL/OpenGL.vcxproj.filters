@@ -287,8 +287,10 @@
     <None Include="res\Shaders\TestSSAO\screen.shader" />
     <None Include="res\Shaders\TestPBR\pbr.shader" />
     <None Include="res\Shaders\TestIBL\base.shader" />
-    <None Include="res\Shaders\TestIBL\ibl.shader" />
+    <None Include="res\Shaders\TestIBL\irradiance.shader" />
     <None Include="res\Shaders\TestIBL\prefilter.shader" />
+    <None Include="res\Shaders\TestIBL\equirectangular_to_cube.shader" />
+    <None Include="res\Shaders\TestIBL\sky.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />
