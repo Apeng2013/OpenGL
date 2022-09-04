@@ -28,7 +28,7 @@ namespace Test {
 
 
 		//环境立方体贴图
-		unsigned int m_FrameBuffer1;
+		unsigned int m_AmbientFrameBuffer;
 		unsigned int m_EquirectangularMap;
 		unsigned int m_AmbientCubeMap;
 		unsigned int m_AmbientRenderBuffer;
@@ -36,10 +36,11 @@ namespace Test {
 		Shader m_SkyShader;
 
 		//漫反射积分
-		unsigned int m_FrameBuffer2;
+		unsigned int m_IrradianceFrameBuffer;
 		unsigned int m_IrradianceMap;
-		unsigned int m_RenderBuffer2;
+		unsigned int m_IrradianceRenderBuffer;
 		Shader m_IrradianceShader;
+
 
 		bool m_FirstRender;
 	};

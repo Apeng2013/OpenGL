@@ -35,8 +35,8 @@ namespace Test {
 		stbi_image_free(image_ptr);
 
 		//将等距柱状图投影为立方体贴图
-		glGenFramebuffers(1, &m_FrameBuffer1);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer1);
+		glGenFramebuffers(1, &m_AmbientFrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_AmbientFrameBuffer);
 
 		glGenTextures(1, &m_AmbientCubeMap);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_AmbientCubeMap);
@@ -56,8 +56,8 @@ namespace Test {
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_AmbientRenderBuffer);
 
 		//生成漫反射积分
-		glGenFramebuffers(1, &m_FrameBuffer2);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer2);
+		glGenFramebuffers(1, &m_IrradianceFrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_IrradianceFrameBuffer);
 
 		glGenTextures(1, &m_IrradianceMap);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_IrradianceMap);
@@ -70,10 +70,10 @@ namespace Test {
 		{
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 32, 32, 0, GL_RGB, GL_FLOAT, nullptr);
 		}
-		glGenRenderbuffers(1, &m_RenderBuffer2);
-		glBindRenderbuffer(GL_RENDERBUFFER, m_RenderBuffer2);
+		glGenRenderbuffers(1, &m_IrradianceRenderBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_IrradianceRenderBuffer);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 32, 32);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderBuffer2);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_IrradianceRenderBuffer);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -82,10 +82,10 @@ namespace Test {
 	{
 		glDeleteTextures(1, &m_EquirectangularMap);
 		glDeleteTextures(1, &m_AmbientCubeMap);
-		glDeleteFramebuffers(1, &m_FrameBuffer1);
+		glDeleteFramebuffers(1, &m_AmbientFrameBuffer);
 		glDeleteRenderbuffers(1, &m_AmbientRenderBuffer);
-		glDeleteFramebuffers(1, &m_FrameBuffer2);
-		glDeleteRenderbuffers(1, &m_RenderBuffer2);
+		glDeleteFramebuffers(1, &m_IrradianceFrameBuffer);
+		glDeleteRenderbuffers(1, &m_IrradianceRenderBuffer);
 		glDeleteTextures(1, &m_IrradianceMap);
 	}
 
@@ -107,7 +107,7 @@ namespace Test {
 		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
 		};
 
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer1);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_AmbientFrameBuffer);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 
@@ -143,7 +143,7 @@ namespace Test {
 		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
 		};
 		glViewport(0, 0, 32, 32);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer2);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_IrradianceFrameBuffer);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 
