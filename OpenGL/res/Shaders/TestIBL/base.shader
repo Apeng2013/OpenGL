@@ -45,6 +45,8 @@ uniform float uMetallic;
 uniform float uRoughness;
 uniform float uAo;
 uniform samplerCube uIrradianceMap;
+uniform samplerCube uPreFilterMap;
+uniform sampler2D uBRDFMap;
 
 const float PI = 3.14159265359;
 
@@ -72,6 +74,14 @@ void main()
 	ambient = ambient / (ambient + vec3(1.0));
 	ambient = pow(ambient, vec3(1.0 / 2.2));
 
-	FragColor = vec4(ambient, 1.0);
+	vec3 R = reflect(-view_dir, fs_in.normal);
+
+	const float MAX_REFLECTION_LOD = 4.0;
+	vec3 prefilteredColor = textureLod(uPreFilterMap, R, uRoughness * MAX_REFLECTION_LOD).rgb;
+
+	vec2 envBRDF = texture(uBRDFMap, vec2(max(dot(normal, view_dir), 0.0), uRoughness)).rg;
+	vec3 specular = prefilteredColor * (kS * envBRDF.x + envBRDF.y);
+
+	FragColor = vec4(ambient + specular, 1.0);
 }
 

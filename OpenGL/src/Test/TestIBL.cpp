@@ -15,6 +15,9 @@ namespace Test {
 		m_EquirectangularToCubeShader("res/Shaders/TestIBL/equirectangular_to_cube.shader"),
 		m_SkyShader("res/Shaders/TestIBL/sky.shader"),
 		m_IrradianceShader("res/Shaders/TestIBL/irradiance.shader"),
+		m_PreFilterShader("res/Shaders/TestIBL/prefilter.shader"),
+		m_BRDFShader("res/Shaders/TestIBL/brdf.shader"),
+		m_Rectangle(),
 		m_FirstRender(true)
 	{
 
@@ -75,25 +78,74 @@ namespace Test {
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 32, 32);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_IrradianceRenderBuffer);
 
+		//预滤波环境贴图
+		glGenFramebuffers(1, &m_PreFilterFrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_PreFilterFrameBuffer);
+		glGenTextures(1, &m_PreFilterMap);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_PreFilterMap);
+		for (int i = 0; i < 6; i++)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 128, 128, 0, GL_RGB, GL_FLOAT, nullptr);
+		}
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+		glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+		glGenRenderbuffers(1, &m_PreFilterRenderBuffer);
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+		//brdf lut
+
+		glGenFramebuffers(1, &m_BRDFFrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_BRDFFrameBuffer);
+		glGenTextures(1, &m_BRDFMap);
+		glBindTexture(GL_TEXTURE_2D, m_BRDFMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 512, 512, 0, GL_RG, GL_FLOAT, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_BRDFMap, 0);
+
+		glGenRenderbuffers(1, &m_BRDFRenderBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_BRDFRenderBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 512, 512);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH24_STENCIL8, GL_RENDERBUFFER, m_BRDFRenderBuffer);
+
 	}
 
 	TestIBL::~TestIBL()
 	{
 		glDeleteTextures(1, &m_EquirectangularMap);
-		glDeleteTextures(1, &m_AmbientCubeMap);
 		glDeleteFramebuffers(1, &m_AmbientFrameBuffer);
 		glDeleteRenderbuffers(1, &m_AmbientRenderBuffer);
+		glDeleteTextures(1, &m_AmbientCubeMap);
+
 		glDeleteFramebuffers(1, &m_IrradianceFrameBuffer);
 		glDeleteRenderbuffers(1, &m_IrradianceRenderBuffer);
 		glDeleteTextures(1, &m_IrradianceMap);
+
+		glDeleteFramebuffers(1, &m_PreFilterFrameBuffer);
+		glDeleteRenderbuffers(1, &m_PreFilterRenderBuffer);
+		glDeleteTextures(1, &m_PreFilterMap);
+
+		glDeleteFramebuffers(1, &m_BRDFFrameBuffer);
+		glDeleteRenderbuffers(1, &m_BRDFRenderBuffer);
+		glDeleteTextures(1, &m_BRDFMap);
 	}
 
 	void TestIBL::OnUpdate(float delta_time)
 	{
 	}
 
-	void TestIBL::OnFirstRender()
+	void TestIBL::GenerateAmbientMap()
 	{
 		// 等距柱状图转换成立方体贴图 start
 		glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
@@ -129,7 +181,7 @@ namespace Test {
 		// 等距柱状图转换成立方体贴图 end
 	}
 
-	void TestIBL::OnSecondRender()
+	void TestIBL::GenerateIrradianceMap()
 	{
 		// 预结算漫反射积分 start
 		glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
@@ -162,12 +214,68 @@ namespace Test {
 		// 预结算漫反射积分 end
 	}
 
+	void TestIBL::GeneratePreFilterMap()
+	{
+
+		glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
+		glm::mat4 captureViews[] =
+		{
+		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)),
+		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f)),
+		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+		   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
+		};
+
+		glViewport(0, 0, 128, 128);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_PreFilterFrameBuffer);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_AmbientCubeMap);
+		m_PreFilterShader.Bind();
+		m_PreFilterShader.SetUniform1i("uEnvironmentMap", 1);
+		m_PreFilterShader.SetUniformMat4f("uProj", captureProjection);
+		unsigned int maxMipLevels = 5;
+		for (unsigned int mip = 0; mip < maxMipLevels; mip++)
+		{
+			unsigned int mipWidth = 128 * std::pow(0.5, mip);
+			unsigned int mipHeight = 128 * std::pow(0.5, mip);
+			glBindRenderbuffer(GL_RENDERBUFFER, m_PreFilterRenderBuffer);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, mipWidth, mipHeight);
+			glViewport(0, 0, mipWidth, mipHeight);
+
+			float roughness = (float)mip / (float)(maxMipLevels - 1);
+			m_PreFilterShader.SetUniform1f("uRoughness", roughness);
+
+			for (int i = 0; i < 6; i++)
+			{
+				m_PreFilterShader.SetUniformMat4f("uView", captureViews[i]);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_PreFilterMap, mip);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+				m_Cube.Draw(m_PreFilterShader);
+			}
+		}
+	}
+
+	void TestIBL::GenerateBRDFMap()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_BRDFFrameBuffer);
+		glViewport(0, 0, 512, 512);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		m_BRDFShader.Bind();
+		m_Rectangle.Draw(m_BRDFShader);
+	}
+
 	void TestIBL::OnRender()
 	{
 		if (m_FirstRender)
 		{
-			OnFirstRender();
-			OnSecondRender();
+			GenerateAmbientMap();
+			GenerateIrradianceMap();
+			GeneratePreFilterMap();
+			GenerateBRDFMap();
 			m_FirstRender = false;
 		}
 
@@ -185,9 +293,17 @@ namespace Test {
 
 		//绘制材质球 start
 		m_Shader.Bind();
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_IrradianceMap);
-		m_Shader.SetUniform1i("uIrradianceMap", 1);
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_PreFilterMap);
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, m_BRDFMap);
+
+		m_Shader.SetUniform1i("uIrradianceMap", 4);
+		m_Shader.SetUniform1i("uPreFilterMap", 5);
+		m_Shader.SetUniform1i("uBRDFMap", 6);
+
 		m_Shader.SetUniformMat4f("uProj", projection);
 		m_Shader.SetUniformMat4f("uView", view);
 		m_Shader.SetUniformMat4f("uModel", model);
@@ -203,9 +319,9 @@ namespace Test {
 		m_SkyShader.Bind();
 		m_SkyShader.SetUniformMat4f("uProj", projection);
 		m_SkyShader.SetUniformMat4f("uView", view);
-		glActiveTexture(GL_TEXTURE2);
+		glActiveTexture(GL_TEXTURE20);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_AmbientCubeMap);
-		m_SkyShader.SetUniform1i("uTexture", 2);
+		m_SkyShader.SetUniform1i("uTexture", 20);
 		m_Cube.Draw(m_SkyShader);
 		//天空盒 end
 

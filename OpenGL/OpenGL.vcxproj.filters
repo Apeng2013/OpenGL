@@ -291,6 +291,7 @@
     <None Include="res\Shaders\TestIBL\prefilter.shader" />
     <None Include="res\Shaders\TestIBL\equirectangular_to_cube.shader" />
     <None Include="res\Shaders\TestIBL\sky.shader" />
+    <None Include="res\Shaders\TestIBL\brdf.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\dependencies\glm\CMakeLists.txt" />

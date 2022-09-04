@@ -2,6 +2,7 @@
 #include "Test.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Cube.h"
+#include "Geometry/Rectangle.h"
 
 namespace Test {
 	class TestIBL : public Test
@@ -14,8 +15,10 @@ namespace Test {
 		void OnRender() override;
 		void OnImGuiRender() override;
 
-		void OnFirstRender();
-		void OnSecondRender();
+		void GenerateAmbientMap();
+		void GenerateIrradianceMap();
+		void GeneratePreFilterMap();
+		void GenerateBRDFMap();
 
 	private:
 		//²ÄÖÊÇò
@@ -41,6 +44,17 @@ namespace Test {
 		unsigned int m_IrradianceRenderBuffer;
 		Shader m_IrradianceShader;
 
+		//Ô¤ÂË²¨»·¾³ÌùÍ¼
+		unsigned int m_PreFilterFrameBuffer;
+		unsigned int m_PreFilterMap;
+		unsigned int m_PreFilterRenderBuffer;
+		Shader m_PreFilterShader;
+
+		unsigned int m_BRDFFrameBuffer;
+		unsigned int m_BRDFMap;
+		unsigned int m_BRDFRenderBuffer;
+		Shader m_BRDFShader;
+		Rectangle m_Rectangle;
 
 		bool m_FirstRender;
 	};

@@ -256,6 +256,7 @@
     <None Include="res\Shaders\TestHDR\base.shader" />
     <None Include="res\Shaders\TestHDR\hdr.shader" />
     <None Include="res\Shaders\TestIBL\base.shader" />
+    <None Include="res\Shaders\TestIBL\brdf.shader" />
     <None Include="res\Shaders\TestIBL\equirectangular_to_cube.shader" />
     <None Include="res\Shaders\TestIBL\irradiance.shader" />
     <None Include="res\Shaders\TestIBL\prefilter.shader" />
